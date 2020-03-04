@@ -1,0 +1,43 @@
+name: drop_bites
+description: A new Flutter project.
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^0.1.2
+  shared_preferences: ^0.5.6+2
+  animated_text_kit: ^2.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+
+  uses-material-design: true
+
+  assets:
+   - images/
+
+  fonts:
+    - family: Delius
+      fonts:
+        - asset: fonts/Delius-Regular.ttf
+
+    - family: Righteous
+      fonts:
+        - asset: fonts/Righteous-Regular.ttf
+
+    - family: Vollkorn
+      fonts:
+        - asset: fonts/Vollkorn-Regular.ttf
+    
+    - family: Dekko
+      fonts:
+        - asset: fonts/Dekko-Regular.ttf
