@@ -8,17 +8,22 @@ const kOrange3 = Color(0xFFF5B041);
 const kOrange4 = Color(0xFFF39C12);
 const kOrange5 = Color(0xFFD68910);
 
+const kAnimationSeconds = 2;
+
 const kButtonTextStyle = TextStyle(
+  fontFamily: 'Slabo',
   fontSize: 18,
-  fontWeight: FontWeight.w500,
-  fontFamily: 'Dekko',
+);
+
+const kDefaultTextStyle = TextStyle(
+  fontFamily: 'Slabo',
+  fontSize: 16
 );
 
 const kSplashScreenTextStyle = TextStyle(
   fontSize: 55,
-  fontWeight: FontWeight.w900,
-  letterSpacing: 1.25,
-  fontFamily: 'Dekko',
+  letterSpacing: 1.1,
+  fontFamily: 'Slabo',
 );
 
 const kTextFieldDecoration = InputDecoration(

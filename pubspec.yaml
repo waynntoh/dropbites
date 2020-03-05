@@ -13,6 +13,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   shared_preferences: ^0.5.6+2
   animated_text_kit: ^2.0.0
+  flutter_spinkit: ^4.1.2
 
 dev_dependencies:
   flutter_test:
@@ -26,18 +27,10 @@ flutter:
    - images/
 
   fonts:
-    - family: Delius
-      fonts:
-        - asset: fonts/Delius-Regular.ttf
-
-    - family: Righteous
-      fonts:
-        - asset: fonts/Righteous-Regular.ttf
-
-    - family: Vollkorn
-      fonts:
-        - asset: fonts/Vollkorn-Regular.ttf
-    
     - family: Dekko
       fonts:
         - asset: fonts/Dekko-Regular.ttf
+
+    - family: Slabo
+      fonts:
+        - asset: fonts/Slabo27px-Regular.ttf
