@@ -73,7 +73,7 @@ class _SplashViewState extends State<SplashView>
         tag: 'logo',
         child: AnimatedBuilder(
           animation: controller,
-          child: Image.asset('images/logo.png', scale: .75),
+          child: Image.asset('images/logo.png', scale: .5),
           builder: (context, child) {
             return Transform.rotate(
               angle: controller.value * 2.0 * pi,

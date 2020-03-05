@@ -16,7 +16,8 @@ class MyApp extends StatelessWidget {
         textTheme: TextTheme(
           button: kButtonTextStyle,
           body1: kDefaultTextStyle,
-          body2: kDefaultTextStyle
+          title: kDefaultTextStyle,
+          caption: kDefaultTextStyle
         ),
         primarySwatch: Colors.blue,
       ),

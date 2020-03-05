@@ -63,10 +63,6 @@ class _LoginViewState extends State<LoginView>
     // TODO: Login
   }
 
-  void register() {
-    // TODO: Register
-  }
-
   @override
   void initState() {
     // Set user email and password into textfield
@@ -129,6 +125,7 @@ class _LoginViewState extends State<LoginView>
                 height: 48.0,
               ),
               TextField(
+                style: kDefaultTextStyle,
                 controller: emailController,
                 keyboardType: TextInputType.emailAddress,
                 textAlign: TextAlign.center,
@@ -144,6 +141,7 @@ class _LoginViewState extends State<LoginView>
                 height: 16.0,
               ),
               TextField(
+                style: kDefaultTextStyle,
                 controller: passwordController,
                 obscureText: true,
                 textAlign: TextAlign.center,
@@ -162,14 +160,13 @@ class _LoginViewState extends State<LoginView>
                   GestureDetector(
                     child: Text(
                       'Remember Me',
-                      style: TextStyle(fontSize: 13),
                     ),
                     onTap: () => _toggleRememberMe(),
                   ),
                   Switch(
                     activeColor: kOrange4,
                     activeTrackColor: kOrange2,
-                    inactiveTrackColor: kOrange2,
+                    inactiveTrackColor: kOrange1,
                     value: _rememberMe,
                     onChanged: (bool value) {
                       _toggleRememberMe();
@@ -201,7 +198,7 @@ class _LoginViewState extends State<LoginView>
                   ),
                 ],
               ),
-              SizedBox(height: 14),
+              SizedBox(height: 16),
               InkWell(
                   onTap: () => _showResetDialog(),
                   child: Container(
