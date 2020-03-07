@@ -17,7 +17,7 @@ class ResetPasswordDialog extends StatelessWidget {
               keyboardType: TextInputType.emailAddress,
               textAlign: TextAlign.center,
               decoration: kTextFieldDecoration.copyWith(
-                hintText: 'Enter your email',
+                hintText: 'example@email.com',
                 prefixIcon: Icon(Icons.email, color: kOrange4),
               ),
             ),

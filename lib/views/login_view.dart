@@ -50,15 +50,6 @@ class _LoginViewState extends State<LoginView>
         '${prefs.get('remember_me')}, ${prefs.get('email')}, ${prefs.get('password')}');
   }
 
-  void _showResetDialog() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return ResetPasswordDialog();
-      },
-    );
-  }
-
   void login() {
     // TODO: Login
   }
@@ -94,64 +85,78 @@ class _LoginViewState extends State<LoginView>
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: kBackgroundColor.withOpacity(controller.value),
+      backgroundColor: Colors.white.withOpacity(controller.value),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Opacity(
           opacity: controller.value,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Row(
                 children: <Widget>[
                   Hero(
                     tag: 'logo',
                     child: Container(
+                      height: 100,
+                      width: 100,
                       child: Image.asset('images/logo.png'),
-                      height: 90,
-                      width: 90,
                     ),
                   ),
-                  TyperAnimatedTextKit(
-                    isRepeatingAnimation: false,
-                    speed: Duration(milliseconds: 175),
-                    text: ['DropBites'],
-                    textStyle: kSplashScreenTextStyle,
-                  ),
+                  Hero(
+                    tag: 'title',
+                    child: Material(
+                      child: TyperAnimatedTextKit(
+                        isRepeatingAnimation: false,
+                        speed: Duration(milliseconds: 175),
+                        text: ['DropBites'],
+                        textStyle: kSplashScreenTextStyle,
+                      ),
+                    ),
+                  )
                 ],
               ),
               SizedBox(
                 height: 48.0,
               ),
-              TextField(
-                style: kDefaultTextStyle,
-                controller: emailController,
-                keyboardType: TextInputType.emailAddress,
-                textAlign: TextAlign.center,
-                onChanged: (value) {
-                  email = value;
-                },
-                decoration: kTextFieldDecoration.copyWith(
-                  hintText: 'example.email.com',
-                  prefixIcon: Icon(Icons.email, color: kOrange4),
+              Hero(
+                tag: 'emailTextField',
+                child: Material(
+                  child: TextField(
+                    style: kDefaultTextStyle,
+                    controller: emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    textAlign: TextAlign.center,
+                    onChanged: (value) {
+                      email = value;
+                    },
+                    decoration: kTextFieldDecoration.copyWith(
+                      hintText: 'example.email.com',
+                      prefixIcon: Icon(Icons.email, color: kOrange4),
+                    ),
+                  ),
                 ),
               ),
               SizedBox(
                 height: 16.0,
               ),
-              TextField(
-                style: kDefaultTextStyle,
-                controller: passwordController,
-                obscureText: true,
-                textAlign: TextAlign.center,
-                onChanged: (value) {
-                  password = value;
-                },
-                decoration: kTextFieldDecoration.copyWith(
-                  hintText: '******',
-                  prefixIcon: Icon(Icons.lock, color: kOrange4),
-                  // suffixIcon: Icon(Icons.visibility_off, color: kOrange4),
+              Hero(
+                tag: 'passwordTextField',
+                child: Material(
+                  child: TextField(
+                    style: kDefaultTextStyle,
+                    controller: passwordController,
+                    obscureText: true,
+                    textAlign: TextAlign.center,
+                    onChanged: (value) {
+                      password = value;
+                    },
+                    decoration: kTextFieldDecoration.copyWith(
+                      hintText: '******',
+                      prefixIcon: Icon(Icons.lock, color: kOrange4),
+                      // suffixIcon: Icon(Icons.visibility_off, color: kOrange4),
+                    ),
+                  ),
                 ),
               ),
               Row(
@@ -180,11 +185,14 @@ class _LoginViewState extends State<LoginView>
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  RoundedButton(
-                    text: 'Register',
-                    color: kOrange0,
-                    onPressed: () =>
-                        Navigator.pushNamed(context, RegisterView.id),
+                  Hero(
+                    tag: 'registerButton',
+                    child: RoundedButton(
+                      text: 'Register',
+                      color: kOrange0,
+                      onPressed: () =>
+                          Navigator.pushNamed(context, RegisterView.id),
+                    ),
                   ),
                   RoundedButton(
                     text: 'Login',
@@ -199,17 +207,21 @@ class _LoginViewState extends State<LoginView>
                 ],
               ),
               SizedBox(height: 16),
-              InkWell(
-                  onTap: () => _showResetDialog(),
-                  child: Container(
-                    height: 24,
-                    width: 24,
-                    child: Text(
-                      'Forgot Password?',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: kOrange5),
-                    ),
-                  )),
+              GestureDetector(
+                child: Text(
+                  'Forgot Password?',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: kOrange6),
+                ),
+                onTap: () => {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return ResetPasswordDialog();
+                    },
+                  ),
+                },
+              ),
             ],
           ),
         ),
