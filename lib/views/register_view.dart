@@ -15,7 +15,7 @@ class RegisterView extends StatefulWidget {
 }
 
 class _RegisterViewState extends State<RegisterView> {
-  String registerUrl = '';
+  String registerUrl = 'http://hackanana.com/dropbites/php/registration.php';
   bool eulaAgreed = false;
   TextEditingController fullNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -36,43 +36,47 @@ class _RegisterViewState extends State<RegisterView> {
     // Show EulaDialog only if eula is not agreed
     if (!eulaAgreed) {
       CustomSnackbar.showSnackbar(
-          text: 'Please accept the terms of the EUlA',
+          text: 'Please accept the terms of the EULA',
           scaffoldKey: RegisterView.scaffoldKey,
           iconData: Icons.info);
       return;
     }
 
-    Navigator.pop(context);
-    CustomSnackbar.showSnackbar(
-        text: 'Registration Successful',
-        scaffoldKey: LoginView.scaffoldKey,
-        iconData: Icons.check_circle);
+    // Post to DB
+    String fullName = fullNameController.text;
+    String email = emailController.text;
+    String password = passwordController.text;
+    String phoneNumber = phoneNumberController.text;
 
-    // String fullName = fullNameController.text;
-    // String email = emailController.text;
-    // String password = passwordController.text;
-    // String phoneNumber = phoneNumberController.text;
-
-    // http.post(registerUrl, body: {
-    //   "full_name": fullName,
-    //   "email": email,
-    //   "password": password,
-    //   "phone_number": phoneNumber,
-    // }).then((res) {
-    //   if (res.body == "success") {
-    //     showSnackbar('Registration Successful', true);
-    //   } else {
-    //     showSnackbar('Registration Failed', false);
-    //   }
-    // }).catchError((err) {
-    //   print(err);
-    // });
+    http.post(registerUrl, body: {
+      "full_name": fullName,
+      "email": email,
+      "password": password,
+      "phone_number": phoneNumber,
+    }).then((res) {
+      print('res body : ${res.body}');
+      if (res.body == "Registration Successful") {
+        CustomSnackbar.showSnackbar(
+            text: 'Registration Successful',
+            scaffoldKey: LoginView.scaffoldKey,
+            iconData: Icons.check_circle);
+        Navigator.pop(context);
+      } else {
+        CustomSnackbar.showSnackbar(
+            text: 'Registration Failed',
+            scaffoldKey: RegisterView.scaffoldKey,
+            iconData: Icons.error);
+      }
+    }).catchError((err) {
+      print(err);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     var passwordController;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       key: RegisterView.scaffoldKey,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
@@ -170,7 +174,7 @@ class _RegisterViewState extends State<RegisterView> {
                         TextSpan(text: 'I accept the terms of the '),
                         TextSpan(
                           text: 'EULA',
-                          style: TextStyle(color: kOrange5),
+                          style: TextStyle(color: kOrange6),
                         )
                       ],
                     ),

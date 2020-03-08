@@ -8,7 +8,6 @@ import 'package:drop_bites/views/main_menu_view.dart';
 import 'package:drop_bites/components/reset_password_dialog.dart';
 
 class LoginView extends StatefulWidget {
-
   static final scaffoldKey = GlobalKey<ScaffoldState>();
   static const String id = 'login_view';
   final String savedEmail;
@@ -22,7 +21,6 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView>
     with SingleTickerProviderStateMixin {
-
   String email;
   String password;
   bool _rememberMe = false;
