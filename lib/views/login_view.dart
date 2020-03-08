@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'package:drop_bites/utils/constants.dart';
 import 'package:drop_bites/components/rounded_button.dart';
 import 'package:drop_bites/views/register_view.dart';
@@ -9,6 +8,8 @@ import 'package:drop_bites/views/main_menu_view.dart';
 import 'package:drop_bites/components/reset_password_dialog.dart';
 
 class LoginView extends StatefulWidget {
+
+  static final scaffoldKey = GlobalKey<ScaffoldState>();
   static const String id = 'login_view';
   final String savedEmail;
   final String savedPassword;
@@ -21,13 +22,14 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView>
     with SingleTickerProviderStateMixin {
+
+  String email;
+  String password;
+  bool _rememberMe = false;
   AnimationController controller;
   Animation animation;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  String email;
-  String password;
-  bool _rememberMe = false;
 
   void _toggleRememberMe() async {
     setState(() {
@@ -84,6 +86,7 @@ class _LoginViewState extends State<LoginView>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: LoginView.scaffoldKey,
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white.withOpacity(controller.value),
       body: Padding(

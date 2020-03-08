@@ -22,11 +22,9 @@ class _SplashViewState extends State<SplashView>
   void getSharedPreferences() async {
     final prefs = await SharedPreferences.getInstance();
     bool newBool = prefs.get('remember_me');
-    print(newBool);
     if (newBool != null) {
       _rememberMe = newBool;
     }
-    print(_rememberMe);
 
     if (_rememberMe) {
       savedEmail = prefs.get('email');
@@ -46,7 +44,7 @@ class _SplashViewState extends State<SplashView>
       Navigator.push(
         context,
         PageRouteBuilder(
-          transitionDuration: Duration(seconds: 2, milliseconds: 500),
+          transitionDuration: Duration(seconds: 2),
           pageBuilder: (a, b, c) => (_rememberMe)
               ? LoginView(
                   savedEmail: savedEmail,

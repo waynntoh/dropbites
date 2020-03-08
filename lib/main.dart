@@ -14,12 +14,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         textTheme: TextTheme(
-          button: kButtonTextStyle,
-          body1: kDefaultTextStyle,
-          title: kDefaultTextStyle,
-          caption: kDefaultTextStyle
-        ),
-        primarySwatch: Colors.blue,
+            button: kButtonTextStyle,
+            body1: kDefaultTextStyle,
+            title: kDefaultTextStyle,
+            caption: kDefaultTextStyle),
       ),
       initialRoute: SplashView.id,
       routes: {
