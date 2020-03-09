@@ -34,7 +34,30 @@ class _RegisterViewState extends State<RegisterView> {
     });
   }
 
+  bool emailIsValid(String email) {
+    return RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(email);
+  }
+
+  bool phoneNumberIsValid(String phoneNumber) {
+    return RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(phoneNumber);
+  }
+
   void _register() {
+    // Check for valid email & phone number
+    if (!emailIsValid(emailController.text)) {
+      CustomSnackbar.showSnackbar(
+          text: 'Invalid Email',
+          scaffoldKey: RegisterView.scaffoldKey,
+          iconData: Icons.error);
+      return;
+    } else if (!phoneNumberIsValid(phoneNumberController.text)) {
+      CustomSnackbar.showSnackbar(
+          text: 'Invalid Phone Number',
+          scaffoldKey: RegisterView.scaffoldKey,
+          iconData: Icons.error);
+      return;
+    }
+
     // Show EulaDialog only if eula is not agreed
     if (!eulaAgreed) {
       CustomSnackbar.showSnackbar(
@@ -62,6 +85,7 @@ class _RegisterViewState extends State<RegisterView> {
       "password": password,
       "phone_number": phoneNumber,
     }).then((res) {
+      print(res.body);
       if (res.body == "Registration Successful") {
         CustomSnackbar.showSnackbar(
             text: 'Registration Successful',
@@ -175,7 +199,7 @@ class _RegisterViewState extends State<RegisterView> {
                       controller: phoneNumberController,
                       textAlign: TextAlign.center,
                       decoration: kTextFieldDecoration.copyWith(
-                        hintText: '0123456789',
+                        hintText: '012-3456789',
                         prefixIcon: Icon(Icons.phone_android, color: kOrange4),
                       ),
                     ),
