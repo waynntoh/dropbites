@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 const kBackgroundColor = Color(0xFFF4F3ED);
 const kOrange0 = Color(0xFFFDEBD0);
@@ -9,7 +10,12 @@ const kOrange4 = Color(0xFFF39C12);
 const kOrange5 = Color(0xFFD68910);
 const kOrange6 = Color(0xFFCA6F1E);
 
-const kAnimationSeconds = 2;
+const kSpinKitWave = SpinKitWave(
+  color: kOrange4,
+  itemCount: 5,
+  type: SpinKitWaveType.center,
+  size: 70,
+);
 
 const kButtonTextStyle = TextStyle(
   fontFamily: 'Slabo',
