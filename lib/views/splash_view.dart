@@ -1,7 +1,9 @@
-import 'package:drop_bites/views/login_view.dart';
-import 'package:flutter/material.dart';
 import 'dart:math';
 import 'dart:async';
+import 'package:drop_bites/views/login_view.dart';
+import 'package:flutter/material.dart';
+import 'package:drop_bites/utils/constants.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashView extends StatefulWidget {
@@ -40,7 +42,7 @@ class _SplashViewState extends State<SplashView>
     )..repeat();
 
     getSharedPreferences();
-    Timer(Duration(seconds: 2, milliseconds: 500), () {
+    Timer(Duration(seconds: 3), () {
       Navigator.push(
         context,
         PageRouteBuilder(
@@ -67,19 +69,45 @@ class _SplashViewState extends State<SplashView>
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-          child: Hero(
-        tag: 'logo',
-        child: AnimatedBuilder(
-          animation: controller,
-          child: Image.asset('images/logo.png', scale: .5),
-          builder: (context, child) {
-            return Transform.rotate(
-              angle: controller.value * 2.0 * pi,
-              child: child,
-            );
-          },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            SizedBox(
+              width: 100,
+              child: Hero(
+                tag: 'logo',
+                child: AnimatedBuilder(
+                  animation: controller,
+                  child: Image.asset('images/logo.png', scale: .9),
+                  builder: (context, child) {
+                    return Transform.rotate(
+                      angle: controller.value * 2.0 * pi,
+                      child: child,
+                    );
+                  },
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 250,
+              child: Hero(
+                tag: 'title',
+                child: Material(
+                  borderRadius: BorderRadius.circular(90),
+                  child: TypewriterAnimatedTextKit(
+                    textAlign: TextAlign.start,
+                    alignment: Alignment.topCenter,
+                    isRepeatingAnimation: false,
+                    speed: Duration(milliseconds: 250),
+                    text: ['DropBites'],
+                    textStyle: kSplashScreenTextStyle,
+                  ),
+                ),
+              ),
+            )
+          ],
         ),
-      )),
+      ),
     );
   }
 }

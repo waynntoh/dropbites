@@ -10,6 +10,28 @@ const kOrange4 = Color(0xFFF39C12);
 const kOrange5 = Color(0xFFD68910);
 const kOrange6 = Color(0xFFCA6F1E);
 
+const kGrey0 = Color(0xFFECECEC);
+const kGrey1 = Color(0xFFBBBBBB);
+const kGrey2 = Color(0xFF9A9A9A);
+const kGrey3 = Color(0xFF9A9A9A);
+const kGrey4 = Color(0xFF6B6B6B);
+const kGrey5 = Color(0xFF4C4C4C);
+const kGrey6 = Color(0xFF2C2C2C);
+
+const kButtonShadow = BoxShadow(
+  color: kGrey0,
+  blurRadius: 1,
+  spreadRadius: 1,
+  offset: Offset(2, 2.5),
+);
+
+const kItemCardShadow = BoxShadow(
+  color: kGrey1,
+  blurRadius: 3,
+  spreadRadius: 2,
+  offset: Offset(2, 2.5),
+);
+
 const kSpinKitWave = SpinKitWave(
   color: kOrange4,
   itemCount: 5,
@@ -17,17 +39,35 @@ const kSpinKitWave = SpinKitWave(
   size: 70,
 );
 
+Widget kSpinKitHybrid = Stack(
+  children: <Widget>[
+    SpinKitFadingCircle(
+      color: kOrange5,
+      size: 70,
+    ),
+    SpinKitDoubleBounce(
+      color: kOrange0,
+      size: 30,
+    ),
+  ],
+);
+
 const kButtonTextStyle = TextStyle(
   fontFamily: 'Slabo',
   fontSize: 18,
 );
 
-const kDefaultTextStyle = TextStyle(fontFamily: 'Slabo', fontSize: 16);
+const kDefaultTextStyle = TextStyle(
+  fontFamily: 'Slabo',
+  fontSize: 16,
+);
 
 const kSplashScreenTextStyle = TextStyle(
   fontSize: 55,
   fontFamily: 'Slabo',
 );
+
+const kMainMenuTitleTextStyle = TextStyle(fontSize: 20, fontFamily: 'Slabo');
 
 const kTextFieldDecoration = InputDecoration(
   hintText: '',

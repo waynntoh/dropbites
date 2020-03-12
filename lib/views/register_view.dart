@@ -150,7 +150,7 @@ class _RegisterViewState extends State<RegisterView> {
                       controller: fullNameController,
                       textAlign: TextAlign.center,
                       decoration: kTextFieldDecoration.copyWith(
-                        hintText: 'John Doe',
+                        hintText: 'Elon Musk',
                         prefixIcon: Icon(Icons.person, color: kOrange4),
                       ),
                     ),
@@ -199,7 +199,7 @@ class _RegisterViewState extends State<RegisterView> {
                       controller: phoneNumberController,
                       textAlign: TextAlign.center,
                       decoration: kTextFieldDecoration.copyWith(
-                        hintText: '012-3456789',
+                        hintText: '0123456789',
                         prefixIcon: Icon(Icons.phone_android, color: kOrange4),
                       ),
                     ),
@@ -267,7 +267,7 @@ class _RegisterViewState extends State<RegisterView> {
                 ),
               ),
             ),
-            (loading) ? kSpinKitWave : Container()
+            (loading) ? kSpinKitHybrid : Container()
           ],
         ),
       ),

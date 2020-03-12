@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:drop_bites/utils/constants.dart';
 import 'package:drop_bites/components/rounded_button.dart';
@@ -7,6 +7,8 @@ import 'package:drop_bites/views/register_view.dart';
 import 'package:drop_bites/views/main_menu_view.dart';
 import 'package:drop_bites/components/reset_password_dialog.dart';
 import 'package:drop_bites/components/custom_snackbar.dart';
+import 'package:provider/provider.dart';
+import 'package:drop_bites/utils/user.dart';
 import 'package:http/http.dart' as http;
 
 class LoginView extends StatefulWidget {
@@ -28,6 +30,7 @@ class _LoginViewState extends State<LoginView>
   bool _rememberMe = false;
   bool loading = false;
   double loadingOpacity = 1;
+  int readyToExit = 0;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   String loginUrl = 'http://hackanana.com/dropbites/php/login.php';
@@ -58,7 +61,7 @@ class _LoginViewState extends State<LoginView>
       loadingOpacity = .5;
     });
 
-    // Post to DB
+    // Login through DB
     String email = emailController.text;
     String password = passwordController.text;
 
@@ -68,9 +71,14 @@ class _LoginViewState extends State<LoginView>
     }).then((res) {
       if (res.body == "Login Successful") {
         Navigator.pushNamed(context, MainMenuView.id);
+
+        // Pass user data to provider
+        // TODO: fullname & phonenumber?
+        final loggedInUser = Provider.of<User>(context, listen: false);
+        loggedInUser.setEmail(emailController.text);
       } else {
         CustomSnackbar.showSnackbar(
-            text: 'Registration Failed',
+            text: 'Login Failed',
             scaffoldKey: LoginView.scaffoldKey,
             iconData: Icons.error);
       }
@@ -96,10 +104,23 @@ class _LoginViewState extends State<LoginView>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: LoginView.scaffoldKey,
-      resizeToAvoidBottomInset: false,
-      body: Padding(
+    return WillPopScope(
+      onWillPop: () async {
+        if (readyToExit.isEven) {
+          CustomSnackbar.showSnackbar(
+              text: 'Press back again to exit',
+              scaffoldKey: LoginView.scaffoldKey,
+              iconData: Icons.exit_to_app);
+        } else {
+          SystemNavigator.pop();
+        }
+        readyToExit++;
+        return null;
+      },
+      child: Scaffold(
+        key: LoginView.scaffoldKey,
+        resizeToAvoidBottomInset: false,
+        body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20),
           child: Stack(
             children: <Widget>[
@@ -123,11 +144,9 @@ class _LoginViewState extends State<LoginView>
                           Hero(
                             tag: 'title',
                             child: Material(
-                              child: TyperAnimatedTextKit(
-                                isRepeatingAnimation: false,
-                                speed: Duration(milliseconds: 175),
-                                text: ['DropBites'],
-                                textStyle: kSplashScreenTextStyle,
+                              child: Text(
+                                'DropBites',
+                                style: kSplashScreenTextStyle,
                               ),
                             ),
                           )
@@ -243,9 +262,11 @@ class _LoginViewState extends State<LoginView>
                   ),
                 ),
               ),
-              (loading) ? kSpinKitWave : Container(),
+              (loading) ? kSpinKitHybrid : Container(),
             ],
-          )),
+          ),
+        ),
+      ),
     );
   }
 }

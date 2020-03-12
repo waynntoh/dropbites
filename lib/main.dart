@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Provider(
       create: (context) => User(),
-          child: MaterialApp(
+      child: MaterialApp(
         theme: ThemeData(
           textTheme: TextTheme(
               button: kButtonTextStyle,
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
               title: kDefaultTextStyle,
               caption: kDefaultTextStyle),
         ),
-        initialRoute: SplashView.id,
+        initialRoute: MainMenuView.id,
         routes: {
           RegisterView.id: (context) => RegisterView(),
           MainMenuView.id: (context) => MainMenuView(),

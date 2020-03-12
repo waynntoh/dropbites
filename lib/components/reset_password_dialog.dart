@@ -5,7 +5,13 @@ class ResetPasswordDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Reset Password'),
+      title: Text(
+        'Reset Password',
+        style: TextStyle(
+          fontWeight: FontWeight.w900,
+          fontSize: 23,
+        ),
+      ),
       content: SizedBox(
         height: 130,
         child: Column(
@@ -26,10 +32,10 @@ class ResetPasswordDialog extends StatelessWidget {
       ),
       actions: <Widget>[
         Center(
-          child: FlatButton(
+          child: RaisedButton(
+            color: kOrange3,
             child: Text(
               'Send Email',
-              style: TextStyle(color: kOrange5),
             ),
             onPressed: () {
               // TODO: Send reset email
