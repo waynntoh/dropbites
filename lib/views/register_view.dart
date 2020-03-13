@@ -85,7 +85,6 @@ class _RegisterViewState extends State<RegisterView> {
       "password": password,
       "phone_number": phoneNumber,
     }).then((res) {
-      print(res.body);
       if (res.body == "Registration Successful") {
         CustomSnackbar.showSnackbar(
             text: 'Registration Successful',

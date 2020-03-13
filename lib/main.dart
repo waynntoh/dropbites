@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
               title: kDefaultTextStyle,
               caption: kDefaultTextStyle),
         ),
-        initialRoute: MainMenuView.id,
+        initialRoute: SplashView.id,
         routes: {
           RegisterView.id: (context) => RegisterView(),
           MainMenuView.id: (context) => MainMenuView(),
