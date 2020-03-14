@@ -107,6 +107,7 @@ class _RegisterViewState extends State<RegisterView> {
                   String password = passwordController.text;
                   String phoneNumber = phoneNumberController.text;
 
+<<<<<<< HEAD
                   http.post(registerUrl, body: {
                     "full_name": fullName,
                     "email": email,
@@ -139,6 +140,33 @@ class _RegisterViewState extends State<RegisterView> {
         ),
       );
     }
+=======
+    http.post(registerUrl, body: {
+      "full_name": fullName,
+      "email": email,
+      "password": password,
+      "phone_number": phoneNumber,
+    }).then((res) {
+      if (res.body == "Registration Successful") {
+        CustomSnackbar.showSnackbar(
+            text: 'Registration Successful',
+            scaffoldKey: LoginView.scaffoldKey,
+            iconData: Icons.check_circle);
+        Navigator.pop(context);
+      } else {
+        CustomSnackbar.showSnackbar(
+            text: 'Registration Failed',
+            scaffoldKey: RegisterView.scaffoldKey,
+            iconData: Icons.error);
+      }
+      setState(() {
+        loading = false;
+        loadingOpacity = 1;
+      });
+    }).catchError((err) {
+      print(err);
+    });
+>>>>>>> 90db0ce503b972ce96469d2e820a646d41fbbcef
   }
 
   @override

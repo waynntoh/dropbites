@@ -20,6 +20,7 @@ const kGrey5 = Color(0xFF4C4C4C);
 const kGrey6 = Color(0xFF2C2C2C);
 
 const kCardColors = [
+<<<<<<< HEAD
   Color(0xFFFFF0F0),
   Color(0xFFFFFDF0),
   Color(0xFFF8FFF0),
@@ -30,6 +31,17 @@ const kCardColors = [
 ];
 
 // SHADOWS
+=======
+  Color(0xFFFFEBEB),
+  Color(0xFFFFFEEB),
+  Color(0xFFF1FFEB),
+  Color(0xFFEBFFFB),
+  Color(0xFFEBF0FF),
+  Color(0xFFF9EBFF),
+  Color(0xFFFFEBF3),
+];
+
+>>>>>>> 90db0ce503b972ce96469d2e820a646d41fbbcef
 const kButtonShadow = BoxShadow(
   color: kGrey0,
   blurRadius: 1,
@@ -90,6 +102,7 @@ const kSplashScreenTextStyle = TextStyle(
 );
 
 const kCardTitleTextStyle = TextStyle(
+<<<<<<< HEAD
   fontSize: 20,
   fontFamily: 'Slabo',
   color: Colors.black,
@@ -99,6 +112,14 @@ const kMainMenuTitleTextStyle = TextStyle(
   fontSize: 20,
   fontFamily: 'Slabo',
 );
+=======
+    fontSize: 24,
+    fontFamily: 'Slabo',
+    fontWeight: FontWeight.w900,
+    color: kGrey5);
+
+const kMainMenuTitleTextStyle = TextStyle(fontSize: 20, fontFamily: 'Slabo');
+>>>>>>> 90db0ce503b972ce96469d2e820a646d41fbbcef
 
 // TEXTFIELD DECORATIONS
 const kTextFieldDecoration = InputDecoration(

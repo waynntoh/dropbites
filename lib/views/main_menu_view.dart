@@ -61,7 +61,11 @@ class _MainMenuViewState extends State<MainMenuView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
+<<<<<<< HEAD
                     'Today\'s Deals',
+=======
+                    'Bite Deals',
+>>>>>>> 90db0ce503b972ce96469d2e820a646d41fbbcef
                     style: kSplashScreenTextStyle.copyWith(
                         fontWeight: FontWeight.w900, fontSize: 36),
                   ),
@@ -75,21 +79,31 @@ class _MainMenuViewState extends State<MainMenuView> {
                       'Desserts'
                     ],
                   ),
+<<<<<<< HEAD
                   SizedBox(
                     height: 530,
+=======
+                  Container(
+                    padding: EdgeInsets.only(top: 24),
+                    height: 410,
+                    width: double.infinity,
+>>>>>>> 90db0ce503b972ce96469d2e820a646d41fbbcef
                     child: ListView.builder(
                       physics: ClampingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
                       itemCount: 5,
                       itemBuilder: (context, index) {
                         return ItemCard(
+<<<<<<< HEAD
                           rating: 5,
+=======
+>>>>>>> 90db0ce503b972ce96469d2e820a646d41fbbcef
                           price: index.toString(),
                           color: kCardColors[index],
                         );
                       },
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
