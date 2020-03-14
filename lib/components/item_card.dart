@@ -6,32 +6,19 @@ class ItemCard extends StatelessWidget {
   final double cardHeight = 360;
   final String price;
   final Color color;
-<<<<<<< HEAD
   final int rating;
 
   ItemCard({@required this.price, @required this.rating, this.color});
-=======
-
-  ItemCard({@required this.price, this.color});
->>>>>>> 90db0ce503b972ce96469d2e820a646d41fbbcef
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-<<<<<<< HEAD
-      width: 300,
+      width: 280,
       child: Stack(
         children: <Widget>[
           Positioned(
             left: 2,
             top: 32,
-=======
-      height: 390,
-      width: 290,
-      child: Stack(
-        children: <Widget>[
-          Positioned(
->>>>>>> 90db0ce503b972ce96469d2e820a646d41fbbcef
             height: 360,
             width: 240,
             child: Container(
@@ -41,11 +28,7 @@ class ItemCard extends StatelessWidget {
                     colors: [kGrey1, Colors.white],
                     begin: Alignment.topRight,
                     end: Alignment.bottomLeft),
-<<<<<<< HEAD
                 borderRadius: BorderRadius.circular(12),
-=======
-                borderRadius: BorderRadius.circular(30),
->>>>>>> 90db0ce503b972ce96469d2e820a646d41fbbcef
                 image: DecorationImage(
                   fit: BoxFit.cover,
                   image: AssetImage('images/d1.jpg'),
@@ -54,7 +37,6 @@ class ItemCard extends StatelessWidget {
             ),
           ),
           Positioned(
-<<<<<<< HEAD
             left: 24,
             bottom: 64,
             height: 120,
@@ -93,34 +75,6 @@ class ItemCard extends StatelessWidget {
               ),
             ),
           )
-=======
-            bottom: 8,
-            right: 28,
-            height: 60,
-            width: 80,
-            child: Container(
-              child: Center(
-                child: Text(
-                  '\$$price',
-                  style: kCardTitleTextStyle,
-                  textAlign: TextAlign.start,
-                ),
-              ),
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: kGrey3,
-                    blurRadius: 1,
-                    spreadRadius: 1,
-                    offset: Offset(1, 1),
-                  )
-                ],
-                color: color,
-                borderRadius: BorderRadius.circular(16),
-              ),
-            ),
-          ),
->>>>>>> 90db0ce503b972ce96469d2e820a646d41fbbcef
         ],
       ),
     );

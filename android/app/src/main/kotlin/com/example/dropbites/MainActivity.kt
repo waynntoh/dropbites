@@ -1,4 +1,4 @@
-package com.example.drop_bites
+package com.example.dropbites
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
