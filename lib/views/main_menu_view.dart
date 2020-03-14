@@ -75,15 +75,15 @@ class _MainMenuViewState extends State<MainMenuView> {
                       'Desserts'
                     ],
                   ),
-                  Container(
-                    padding: EdgeInsets.only(top: 24),
-                    height: 450,
+                  SizedBox(
+                    height: 530,
                     child: ListView.builder(
                       physics: ClampingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
                       itemCount: 5,
                       itemBuilder: (context, index) {
                         return ItemCard(
+                          rating: 5,
                           price: index.toString(),
                           color: kCardColors[index],
                         );

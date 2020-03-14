@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+// COLORS
 const kBackgroundColor = Color(0xFFF4F3ED);
 const kOrange0 = Color(0xFFFDEBD0);
 const kOrange1 = Color(0xFFFAD7A0);
@@ -19,15 +20,16 @@ const kGrey5 = Color(0xFF4C4C4C);
 const kGrey6 = Color(0xFF2C2C2C);
 
 const kCardColors = [
-  Color(0xFFFFEBEB),
-  Color(0xFFFFFEEB),
-  Color(0xFFF1FFEB),
-  Color(0xFFEBFFFB),
-  Color(0xFFEBF0FF),
-  Color(0xFFF9EBFF),
-  Color(0xFFFFEBF3),
+  Color(0xFFFFF0F0),
+  Color(0xFFFFFDF0),
+  Color(0xFFF8FFF0),
+  Color(0xFFF0FFF8),
+  Color(0xFFF0FAFF),
+  Color(0xFFF8F0FF),
+  Color(0xFFFFF0F2),
 ];
 
+// SHADOWS
 const kButtonShadow = BoxShadow(
   color: kGrey0,
   blurRadius: 1,
@@ -37,11 +39,19 @@ const kButtonShadow = BoxShadow(
 
 const kItemCardShadow = BoxShadow(
   color: kGrey1,
-  blurRadius: 3,
-  spreadRadius: 2,
-  offset: Offset(2, 2.5),
+  blurRadius: 2,
+  spreadRadius: 1,
+  offset: Offset(1, 1.5),
 );
 
+const kItemCardTitleShadow = BoxShadow(
+  color: kGrey4,
+  blurRadius: 1,
+  spreadRadius: .1,
+  offset: Offset(0, 1),
+);
+
+// SPINKITS
 const kSpinKitWave = SpinKitWave(
   color: kOrange4,
   itemCount: 5,
@@ -62,6 +72,7 @@ Widget kSpinKitHybrid = Stack(
   ],
 );
 
+// TEXTSTYLES
 const kButtonTextStyle = TextStyle(
   fontFamily: 'Slabo',
   fontSize: 18,
@@ -79,13 +90,17 @@ const kSplashScreenTextStyle = TextStyle(
 );
 
 const kCardTitleTextStyle = TextStyle(
-    fontSize: 22,
-    fontFamily: 'Slabo',
-    fontWeight: FontWeight.w900,
-    color: kGrey5);
+  fontSize: 20,
+  fontFamily: 'Slabo',
+  color: Colors.black,
+);
 
-const kMainMenuTitleTextStyle = TextStyle(fontSize: 20, fontFamily: 'Slabo');
+const kMainMenuTitleTextStyle = TextStyle(
+  fontSize: 20,
+  fontFamily: 'Slabo',
+);
 
+// TEXTFIELD DECORATIONS
 const kTextFieldDecoration = InputDecoration(
   hintText: '',
   contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),

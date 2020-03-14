@@ -155,109 +155,117 @@ class _LoginViewState extends State<LoginView>
                       SizedBox(
                         height: 48.0,
                       ),
-                      Hero(
-                        tag: 'emailTextField',
-                        child: Material(
-                          child: TextField(
-                            style: kDefaultTextStyle,
-                            controller: emailController,
-                            keyboardType: TextInputType.emailAddress,
-                            textAlign: TextAlign.center,
-                            onChanged: (value) {
-                              email = value;
-                            },
-                            decoration: kTextFieldDecoration.copyWith(
-                              hintText: 'Email Address',
-                              prefixIcon: Icon(Icons.email, color: kOrange4),
+                      Container(
+                        child: Column(
+                          children: <Widget>[
+                            Hero(
+                              tag: 'emailTextField',
+                              child: Material(
+                                child: TextField(
+                                  style: kDefaultTextStyle,
+                                  controller: emailController,
+                                  keyboardType: TextInputType.emailAddress,
+                                  textAlign: TextAlign.center,
+                                  onChanged: (value) {
+                                    email = value;
+                                  },
+                                  decoration: kTextFieldDecoration.copyWith(
+                                    hintText: 'Email Address',
+                                    prefixIcon:
+                                        Icon(Icons.email, color: kOrange4),
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
+                            SizedBox(
+                              height: 16.0,
+                            ),
+                            Hero(
+                              tag: 'passwordTextField',
+                              child: Material(
+                                child: TextField(
+                                  style: kDefaultTextStyle,
+                                  controller: passwordController,
+                                  obscureText: true,
+                                  textAlign: TextAlign.center,
+                                  onChanged: (value) {
+                                    password = value;
+                                  },
+                                  decoration: kTextFieldDecoration.copyWith(
+                                    hintText: 'Password',
+                                    prefixIcon:
+                                        Icon(Icons.lock, color: kOrange4),
+                                    // suffixIcon: Icon(Icons.visibility_off, color: kOrange4),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                GestureDetector(
+                                  child: Text(
+                                    'Remember Me',
+                                  ),
+                                  onTap: () => _toggleRememberMe(),
+                                ),
+                                Switch(
+                                  activeColor: kOrange4,
+                                  activeTrackColor: kOrange2,
+                                  inactiveTrackColor: kOrange1,
+                                  value: _rememberMe,
+                                  onChanged: (bool value) {
+                                    _toggleRememberMe();
+                                  },
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 4.0,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Hero(
+                                  tag: 'registerButton',
+                                  child: RoundedButton(
+                                    text: 'Register',
+                                    color: kOrange0,
+                                    onPressed: () => Navigator.pushNamed(
+                                        context, RegisterView.id),
+                                  ),
+                                ),
+                                RoundedButton(
+                                  text: 'Login',
+                                  color: kOrange3,
+                                  onPressed: () {
+                                    if (_rememberMe) {
+                                      _saveUser();
+                                    }
+                                    _login();
+                                  },
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 16),
+                            GestureDetector(
+                              child: Text(
+                                'Forgot Password?',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: kOrange6),
+                              ),
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return ResetPasswordDialog();
+                                  },
+                                );
+                              },
+                            ),
+                          ],
                         ),
-                      ),
-                      SizedBox(
-                        height: 16.0,
-                      ),
-                      Hero(
-                        tag: 'passwordTextField',
-                        child: Material(
-                          child: TextField(
-                            style: kDefaultTextStyle,
-                            controller: passwordController,
-                            obscureText: true,
-                            textAlign: TextAlign.center,
-                            onChanged: (value) {
-                              password = value;
-                            },
-                            decoration: kTextFieldDecoration.copyWith(
-                              hintText: 'Password',
-                              prefixIcon: Icon(Icons.lock, color: kOrange4),
-                              // suffixIcon: Icon(Icons.visibility_off, color: kOrange4),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          GestureDetector(
-                            child: Text(
-                              'Remember Me',
-                            ),
-                            onTap: () => _toggleRememberMe(),
-                          ),
-                          Switch(
-                            activeColor: kOrange4,
-                            activeTrackColor: kOrange2,
-                            inactiveTrackColor: kOrange1,
-                            value: _rememberMe,
-                            onChanged: (bool value) {
-                              _toggleRememberMe();
-                            },
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 4.0,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Hero(
-                            tag: 'registerButton',
-                            child: RoundedButton(
-                              text: 'Register',
-                              color: kOrange0,
-                              onPressed: () =>
-                                  Navigator.pushNamed(context, RegisterView.id),
-                            ),
-                          ),
-                          RoundedButton(
-                            text: 'Login',
-                            color: kOrange3,
-                            onPressed: () {
-                              if (_rememberMe) {
-                                _saveUser();
-                              }
-                              _login();
-                            },
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 16),
-                      GestureDetector(
-                        child: Text(
-                          'Forgot Password?',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: kOrange6),
-                        ),
-                        onTap: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return ResetPasswordDialog();
-                            },
-                          );
-                        },
-                      ),
+                      )
                     ],
                   ),
                 ),
