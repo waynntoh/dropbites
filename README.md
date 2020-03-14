@@ -1,4 +1,4 @@
-# drop_bites
+# dropbites
 
 A new Flutter project.
 

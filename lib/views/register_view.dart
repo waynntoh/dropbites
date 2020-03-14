@@ -107,7 +107,6 @@ class _RegisterViewState extends State<RegisterView> {
                   String password = passwordController.text;
                   String phoneNumber = phoneNumberController.text;
 
-<<<<<<< HEAD
                   http.post(registerUrl, body: {
                     "full_name": fullName,
                     "email": email,
@@ -140,199 +139,179 @@ class _RegisterViewState extends State<RegisterView> {
         ),
       );
     }
-=======
-    http.post(registerUrl, body: {
-      "full_name": fullName,
-      "email": email,
-      "password": password,
-      "phone_number": phoneNumber,
-    }).then((res) {
-      if (res.body == "Registration Successful") {
-        CustomSnackbar.showSnackbar(
-            text: 'Registration Successful',
-            scaffoldKey: LoginView.scaffoldKey,
-            iconData: Icons.check_circle);
-        Navigator.pop(context);
-      } else {
-        CustomSnackbar.showSnackbar(
-            text: 'Registration Failed',
-            scaffoldKey: RegisterView.scaffoldKey,
-            iconData: Icons.error);
-      }
-      setState(() {
-        loading = false;
-        loadingOpacity = 1;
-      });
-    }).catchError((err) {
-      print(err);
-    });
->>>>>>> 90db0ce503b972ce96469d2e820a646d41fbbcef
+
+    @override
+    Widget build(BuildContext context) {
+      return Scaffold(
+        resizeToAvoidBottomInset: false,
+        key: RegisterView.scaffoldKey,
+        body: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Stack(
+            children: <Widget>[
+              AbsorbPointer(
+                absorbing: loading,
+                child: Opacity(
+                  opacity: loadingOpacity,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          Hero(
+                            tag: 'logo',
+                            child: Container(
+                              height: 100,
+                              width: 100,
+                              child: Image.asset('images/logo.png'),
+                            ),
+                          ),
+                          Hero(
+                            tag: 'title',
+                            child: Material(
+                              child: Text('DropBites',
+                                  style: kSplashScreenTextStyle),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 48.0,
+                      ),
+                      TextField(
+                        style: kDefaultTextStyle,
+                        controller: fullNameController,
+                        textAlign: TextAlign.center,
+                        decoration: kTextFieldDecoration.copyWith(
+                          hintText: 'Full Name',
+                          prefixIcon: Icon(Icons.person, color: kOrange4),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 16.0,
+                      ),
+                      Hero(
+                        tag: 'emailTextField',
+                        child: Material(
+                          child: TextField(
+                            style: kDefaultTextStyle,
+                            controller: emailController,
+                            keyboardType: TextInputType.emailAddress,
+                            textAlign: TextAlign.center,
+                            decoration: kTextFieldDecoration.copyWith(
+                              hintText: 'Email Address',
+                              prefixIcon: Icon(Icons.email, color: kOrange4),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 16.0,
+                      ),
+                      Hero(
+                        tag: 'passwordTextField',
+                        child: Material(
+                          child: TextField(
+                            style: kDefaultTextStyle,
+                            controller: passwordController,
+                            obscureText: true,
+                            textAlign: TextAlign.center,
+                            decoration: kTextFieldDecoration.copyWith(
+                              hintText: 'Password',
+                              prefixIcon: Icon(Icons.lock, color: kOrange4),
+                              // suffixIcon: Icon(Icons.visibility_off, color: kOrange4),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 16.0,
+                      ),
+                      TextField(
+                        style: kDefaultTextStyle,
+                        controller: phoneNumberController,
+                        textAlign: TextAlign.center,
+                        decoration: kTextFieldDecoration.copyWith(
+                          hintText: 'Contact Number',
+                          prefixIcon:
+                              Icon(Icons.phone_android, color: kOrange4),
+                        ),
+                      ),
+                      SizedBox(height: 4),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          GestureDetector(
+                            child: RichText(
+                              text: TextSpan(
+                                style: kDefaultTextStyle.copyWith(
+                                    color: Colors.black),
+                                children: <TextSpan>[
+                                  TextSpan(text: 'I accept the terms of the '),
+                                  TextSpan(
+                                    text: 'EULA',
+                                    style: TextStyle(color: kOrange6),
+                                  )
+                                ],
+                              ),
+                            ),
+                            onTap: () => showDialog(
+                              context: context,
+                              builder: (context) {
+                                return EulaDialog(toggleEula: toggleEula);
+                              },
+                            ),
+                          ),
+                          Checkbox(
+                            activeColor: kOrange4,
+                            value: eulaAgreed,
+                            onChanged: (bool value) {
+                              toggleEula();
+                            },
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 16),
+                      Hero(
+                        tag: 'registerButton',
+                        child: RoundedButton(
+                          color: kOrange0,
+                          text: 'Register',
+                          onPressed: () => _register(),
+                          width: 500,
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text('Already have an account?'),
+                          SizedBox(width: 8),
+                          GestureDetector(
+                            child: Text(
+                              'Login',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500, color: kOrange6),
+                            ),
+                            onTap: () => Navigator.pop(context),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              (loading) ? kSpinKitHybrid : Container()
+            ],
+          ),
+        ),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      key: RegisterView.scaffoldKey,
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20),
-        child: Stack(
-          children: <Widget>[
-            AbsorbPointer(
-              absorbing: loading,
-              child: Opacity(
-                opacity: loadingOpacity,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Hero(
-                          tag: 'logo',
-                          child: Container(
-                            height: 100,
-                            width: 100,
-                            child: Image.asset('images/logo.png'),
-                          ),
-                        ),
-                        Hero(
-                          tag: 'title',
-                          child: Material(
-                            child: Text('DropBites',
-                                style: kSplashScreenTextStyle),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 48.0,
-                    ),
-                    TextField(
-                      style: kDefaultTextStyle,
-                      controller: fullNameController,
-                      textAlign: TextAlign.center,
-                      decoration: kTextFieldDecoration.copyWith(
-                        hintText: 'Full Name',
-                        prefixIcon: Icon(Icons.person, color: kOrange4),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 16.0,
-                    ),
-                    Hero(
-                      tag: 'emailTextField',
-                      child: Material(
-                        child: TextField(
-                          style: kDefaultTextStyle,
-                          controller: emailController,
-                          keyboardType: TextInputType.emailAddress,
-                          textAlign: TextAlign.center,
-                          decoration: kTextFieldDecoration.copyWith(
-                            hintText: 'Email Address',
-                            prefixIcon: Icon(Icons.email, color: kOrange4),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 16.0,
-                    ),
-                    Hero(
-                      tag: 'passwordTextField',
-                      child: Material(
-                        child: TextField(
-                          style: kDefaultTextStyle,
-                          controller: passwordController,
-                          obscureText: true,
-                          textAlign: TextAlign.center,
-                          decoration: kTextFieldDecoration.copyWith(
-                            hintText: 'Password',
-                            prefixIcon: Icon(Icons.lock, color: kOrange4),
-                            // suffixIcon: Icon(Icons.visibility_off, color: kOrange4),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 16.0,
-                    ),
-                    TextField(
-                      style: kDefaultTextStyle,
-                      controller: phoneNumberController,
-                      textAlign: TextAlign.center,
-                      decoration: kTextFieldDecoration.copyWith(
-                        hintText: 'Contact Number',
-                        prefixIcon: Icon(Icons.phone_android, color: kOrange4),
-                      ),
-                    ),
-                    SizedBox(height: 4),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        GestureDetector(
-                          child: RichText(
-                            text: TextSpan(
-                              style: kDefaultTextStyle.copyWith(
-                                  color: Colors.black),
-                              children: <TextSpan>[
-                                TextSpan(text: 'I accept the terms of the '),
-                                TextSpan(
-                                  text: 'EULA',
-                                  style: TextStyle(color: kOrange6),
-                                )
-                              ],
-                            ),
-                          ),
-                          onTap: () => showDialog(
-                            context: context,
-                            builder: (context) {
-                              return EulaDialog(toggleEula: toggleEula);
-                            },
-                          ),
-                        ),
-                        Checkbox(
-                          activeColor: kOrange4,
-                          value: eulaAgreed,
-                          onChanged: (bool value) {
-                            toggleEula();
-                          },
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 16),
-                    Hero(
-                      tag: 'registerButton',
-                      child: RoundedButton(
-                        color: kOrange0,
-                        text: 'Register',
-                        onPressed: () => _register(),
-                        width: 500,
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text('Already have an account?'),
-                        SizedBox(width: 8),
-                        GestureDetector(
-                          child: Text(
-                            'Login',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w500, color: kOrange6),
-                          ),
-                          onTap: () => Navigator.pop(context),
-                        )
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            ),
-            (loading) ? kSpinKitHybrid : Container()
-          ],
-        ),
-      ),
-    );
+    // TODO: implement build
+    return null;
   }
 }
