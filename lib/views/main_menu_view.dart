@@ -61,26 +61,32 @@ class _MainMenuViewState extends State<MainMenuView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    'Best Deals',
+                    'Today\'s Deals',
                     style: kSplashScreenTextStyle.copyWith(
                         fontWeight: FontWeight.w900, fontSize: 36),
                   ),
                   SizedBox(height: 16),
                   OverheadSelector(
                     selections: [
+                      'All',
                       'Appetizers',
                       'Entrées',
                       'Beverages',
                       'Desserts'
                     ],
                   ),
-                  SizedBox(
-                    height: 380,
+                  Container(
+                    padding: EdgeInsets.only(top: 24),
+                    height: 450,
                     child: ListView.builder(
+                      physics: ClampingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
                       itemCount: 5,
                       itemBuilder: (context, index) {
-                        return ItemCard();
+                        return ItemCard(
+                          price: index.toString(),
+                          color: kCardColors[index],
+                        );
                       },
                     ),
                   )

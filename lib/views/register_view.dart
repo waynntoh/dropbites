@@ -66,45 +66,79 @@ class _RegisterViewState extends State<RegisterView> {
           iconData: Icons.info);
       return;
     } else {
-      // Start loading spinkit & block taps
-      setState(() {
-        loading = true;
-        loadingOpacity = .5;
-      });
+      // Registration Confirmation
+      RegisterView.scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          duration: Duration(seconds: 10),
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  Icon(
+                    Icons.check_circle,
+                    color: kOrange3,
+                  ),
+                  SizedBox(width: 8),
+                  Text(
+                    'Registration Confirmation',
+                    style: TextStyle(color: kOrange3),
+                  ),
+                ],
+              ),
+              FlatButton(
+                color: kOrange3,
+                child: Text(
+                  'Register',
+                  style: kDefaultTextStyle.copyWith(color: Colors.black),
+                ),
+                onPressed: () {
+                  // Hide Snackbar
+                  RegisterView.scaffoldKey.currentState.hideCurrentSnackBar();
+
+                  // Start loading spinkit & block taps
+                  setState(() {
+                    loading = true;
+                    loadingOpacity = .5;
+                  });
+                  // Post to DB
+                  String fullName = fullNameController.text;
+                  String email = emailController.text;
+                  String password = passwordController.text;
+                  String phoneNumber = phoneNumberController.text;
+
+                  http.post(registerUrl, body: {
+                    "full_name": fullName,
+                    "email": email,
+                    "password": password,
+                    "phone_number": phoneNumber,
+                  }).then((res) {
+                    if (res.body == "Registration Successful") {
+                      CustomSnackbar.showSnackbar(
+                          text: 'Registration Successful',
+                          scaffoldKey: LoginView.scaffoldKey,
+                          iconData: Icons.check_circle);
+                      Navigator.pop(context);
+                    } else {
+                      CustomSnackbar.showSnackbar(
+                          text: 'Registration Failed',
+                          scaffoldKey: RegisterView.scaffoldKey,
+                          iconData: Icons.error);
+                    }
+                    setState(() {
+                      loading = false;
+                      loadingOpacity = 1;
+                    });
+                  }).catchError((err) {
+                    print(err);
+                  });
+                },
+              )
+            ],
+          ),
+        ),
+      );
     }
-
-    // Post to DB
-    String fullName = fullNameController.text;
-    String email = emailController.text;
-    String password = passwordController.text;
-    String phoneNumber = phoneNumberController.text;
-
-    http.post(registerUrl, body: {
-      "full_name": fullName,
-      "email": email,
-      "password": password,
-      "phone_number": phoneNumber,
-    }).then((res) {
-      print(res.body);
-      if (res.body == "Registration Successful") {
-        CustomSnackbar.showSnackbar(
-            text: 'Registration Successful',
-            scaffoldKey: LoginView.scaffoldKey,
-            iconData: Icons.check_circle);
-        Navigator.pop(context);
-      } else {
-        CustomSnackbar.showSnackbar(
-            text: 'Registration Failed',
-            scaffoldKey: RegisterView.scaffoldKey,
-            iconData: Icons.error);
-      }
-      setState(() {
-        loading = false;
-        loadingOpacity = 1;
-      });
-    }).catchError((err) {
-      print(err);
-    });
   }
 
   @override
@@ -150,7 +184,7 @@ class _RegisterViewState extends State<RegisterView> {
                       controller: fullNameController,
                       textAlign: TextAlign.center,
                       decoration: kTextFieldDecoration.copyWith(
-                        hintText: 'Elon Musk',
+                        hintText: 'Full Name',
                         prefixIcon: Icon(Icons.person, color: kOrange4),
                       ),
                     ),
@@ -166,7 +200,7 @@ class _RegisterViewState extends State<RegisterView> {
                           keyboardType: TextInputType.emailAddress,
                           textAlign: TextAlign.center,
                           decoration: kTextFieldDecoration.copyWith(
-                            hintText: 'example.email.com',
+                            hintText: 'Email Address',
                             prefixIcon: Icon(Icons.email, color: kOrange4),
                           ),
                         ),
@@ -184,7 +218,7 @@ class _RegisterViewState extends State<RegisterView> {
                           obscureText: true,
                           textAlign: TextAlign.center,
                           decoration: kTextFieldDecoration.copyWith(
-                            hintText: '******',
+                            hintText: 'Password',
                             prefixIcon: Icon(Icons.lock, color: kOrange4),
                             // suffixIcon: Icon(Icons.visibility_off, color: kOrange4),
                           ),
@@ -199,7 +233,7 @@ class _RegisterViewState extends State<RegisterView> {
                       controller: phoneNumberController,
                       textAlign: TextAlign.center,
                       decoration: kTextFieldDecoration.copyWith(
-                        hintText: '0123456789',
+                        hintText: 'Contact Number',
                         prefixIcon: Icon(Icons.phone_android, color: kOrange4),
                       ),
                     ),

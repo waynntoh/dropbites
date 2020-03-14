@@ -18,6 +18,16 @@ const kGrey4 = Color(0xFF6B6B6B);
 const kGrey5 = Color(0xFF4C4C4C);
 const kGrey6 = Color(0xFF2C2C2C);
 
+const kCardColors = [
+  Color(0xFFFFEBEB),
+  Color(0xFFFFFEEB),
+  Color(0xFFF1FFEB),
+  Color(0xFFEBFFFB),
+  Color(0xFFEBF0FF),
+  Color(0xFFF9EBFF),
+  Color(0xFFFFEBF3),
+];
+
 const kButtonShadow = BoxShadow(
   color: kGrey0,
   blurRadius: 1,
@@ -65,7 +75,14 @@ const kDefaultTextStyle = TextStyle(
 const kSplashScreenTextStyle = TextStyle(
   fontSize: 55,
   fontFamily: 'Slabo',
+  color: kGrey5,
 );
+
+const kCardTitleTextStyle = TextStyle(
+    fontSize: 22,
+    fontFamily: 'Slabo',
+    fontWeight: FontWeight.w900,
+    color: kGrey5);
 
 const kMainMenuTitleTextStyle = TextStyle(fontSize: 20, fontFamily: 'Slabo');
 

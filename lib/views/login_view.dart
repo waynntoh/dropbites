@@ -167,7 +167,7 @@ class _LoginViewState extends State<LoginView>
                               email = value;
                             },
                             decoration: kTextFieldDecoration.copyWith(
-                              hintText: 'example.email.com',
+                              hintText: 'Email Address',
                               prefixIcon: Icon(Icons.email, color: kOrange4),
                             ),
                           ),
@@ -188,7 +188,7 @@ class _LoginViewState extends State<LoginView>
                               password = value;
                             },
                             decoration: kTextFieldDecoration.copyWith(
-                              hintText: '******',
+                              hintText: 'Password',
                               prefixIcon: Icon(Icons.lock, color: kOrange4),
                               // suffixIcon: Icon(Icons.visibility_off, color: kOrange4),
                             ),

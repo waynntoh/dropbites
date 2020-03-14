@@ -18,7 +18,7 @@ class _OverheadSelectorState extends State<OverheadSelector> {
       int index = widget.selections.indexOf(selection);
       _isSelected = _currentIndex == index;
       return Padding(
-        padding: EdgeInsets.only(right: 20),
+        padding: EdgeInsets.only(right: 13),
         child: GestureDetector(
           onTap: () {
             setState(() {

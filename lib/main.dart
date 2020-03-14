@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
     return Provider(
       create: (context) => User(),
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           textTheme: TextTheme(
               button: kButtonTextStyle,
