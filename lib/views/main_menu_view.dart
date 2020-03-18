@@ -65,7 +65,7 @@ class _MainMenuViewState extends State<MainMenuView> {
                     style: kSplashScreenTextStyle.copyWith(
                         fontWeight: FontWeight.w900, fontSize: 36),
                   ),
-                  SizedBox(height: 16),
+                  SizedBox(height: 20),
                   OverheadSelector(
                     selections: [
                       'All',
@@ -75,6 +75,7 @@ class _MainMenuViewState extends State<MainMenuView> {
                       'Desserts'
                     ],
                   ),
+                  SizedBox(height: 8),
                   SizedBox(
                     height: 530,
                     child: ListView.builder(
@@ -83,7 +84,8 @@ class _MainMenuViewState extends State<MainMenuView> {
                       itemCount: 5,
                       itemBuilder: (context, index) {
                         return ItemCard(
-                          rating: 5,
+                          title: 'Rainbow Macaron',
+                          rating: 4,
                           price: index.toString(),
                           color: kCardColors[index],
                         );
