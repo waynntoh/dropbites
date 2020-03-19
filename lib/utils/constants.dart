@@ -30,7 +30,6 @@ const kCardColors = [
 ];
 
 // SHADOWS
-
 const kButtonShadow = BoxShadow(
   color: kGrey0,
   blurRadius: 1,
@@ -53,24 +52,10 @@ const kItemCardTitleShadow = BoxShadow(
 );
 
 // SPINKITS
-const kSpinKitWave = SpinKitWave(
-  color: kOrange4,
-  itemCount: 5,
+Widget kSpinKitLoader = SpinKitWave(
   type: SpinKitWaveType.center,
-  size: 70,
-);
-
-Widget kSpinKitHybrid = Stack(
-  children: <Widget>[
-    SpinKitFadingCircle(
-      color: kOrange5,
-      size: 70,
-    ),
-    SpinKitDoubleBounce(
-      color: kOrange0,
-      size: 30,
-    ),
-  ],
+  color: kOrange2,
+  size: 100,
 );
 
 // TEXTSTYLES
@@ -100,7 +85,6 @@ const kMainMenuTitleTextStyle = TextStyle(
   fontSize: 20,
   fontFamily: 'Slabo',
 );
-
 
 // TEXTFIELD DECORATIONS
 const kTextFieldDecoration = InputDecoration(

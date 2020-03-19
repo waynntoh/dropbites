@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:drop_bites/utils/constants.dart';
 
 class ItemCard extends StatelessWidget {
+  final String id;
   final String title;
   final String price;
   final Color color;
   final int rating;
 
   ItemCard(
-      {@required this.price,
+      {@required this.id,
+      @required this.price,
       @required this.rating,
       @required this.title,
       this.color});
@@ -39,7 +41,9 @@ class ItemCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: AssetImage('images/d1.jpg'),
+                    // Resize images, currently too big
+                    image: NetworkImage(
+                        'http://hackanana.com/dropbites/product_images/$id.jpg'),
                   ),
                 ),
               ),
@@ -63,7 +67,7 @@ class ItemCard extends StatelessWidget {
                       textAlign: TextAlign.start,
                     ),
                     Text(
-                      '\$$price.00',
+                      '\$$price',
                       style: kCardTitleTextStyle.copyWith(
                         color: kOrange3,
                         fontSize: 19,

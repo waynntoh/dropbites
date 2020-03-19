@@ -60,7 +60,7 @@ class CustomDrawer extends StatelessWidget {
                   leading: Icon(Icons.exit_to_app),
                   title: Text('Log Out', style: kDefaultTextStyle),
                   onTap: () {
-                    // TODO: Drawer log out
+                    Navigator.pop(context);
                     Navigator.pop(context);
                   },
                 ),

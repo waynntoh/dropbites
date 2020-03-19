@@ -270,7 +270,7 @@ class _LoginViewState extends State<LoginView>
                   ),
                 ),
               ),
-              (loading) ? kSpinKitHybrid : Container(),
+              (loading) ? kSpinKitLoader : Container(),
             ],
           ),
         ),
