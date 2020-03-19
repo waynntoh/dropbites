@@ -3,7 +3,11 @@ import 'package:drop_bites/utils/constants.dart';
 
 class OverheadSelector extends StatefulWidget {
   final List<String> selections;
-  OverheadSelector({@required this.selections});
+  final List<String> types;
+  final Function sort;
+
+  OverheadSelector(
+      {@required this.selections, @required this.types, @required this.sort});
 
   @override
   _OverheadSelectorState createState() => _OverheadSelectorState();
@@ -22,6 +26,7 @@ class _OverheadSelectorState extends State<OverheadSelector> {
         child: GestureDetector(
           onTap: () {
             setState(() {
+              widget.sort(widget.types[index]);
               _currentIndex = index;
             });
           },
