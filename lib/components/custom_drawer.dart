@@ -1,41 +1,63 @@
 import 'package:flutter/material.dart';
 import 'package:drop_bites/utils/constants.dart';
+import 'package:provider/provider.dart';
+import 'package:drop_bites/utils/user.dart';
+import 'package:drop_bites/views/cart_view.dart';
 
 class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final loggedInUser = Provider.of<User>(context, listen: false);
+
     return Drawer(
       child: ListView(
         children: <Widget>[
           SizedBox(
-            height: 170,
+            height: 220,
             child: DrawerHeader(
-              padding: EdgeInsets.all(24),
+              padding:
+                  EdgeInsets.only(top: 24, left: 16, right: 16, bottom: 24),
               decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [
                   Colors.white,
-                  Color(0xFFEBEBEB),
                   Color(0xFFEBEBEB),
                   Colors.white,
                 ]),
               ),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   CircleAvatar(
                     backgroundImage: AssetImage('images/elon.jpg'),
-                    radius: 25,
+                    radius: 40,
                   ),
                   SizedBox(height: 8),
                   Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Text('Elon Musk',
+                      Text(loggedInUser.name,
                           style: kDefaultTextStyle.copyWith(
                               fontWeight: FontWeight.w900)),
                       SizedBox(height: 4),
-                      Text('elonmusk@spacex.com', style: kDefaultTextStyle),
+                      Text(loggedInUser.email, style: kDefaultTextStyle),
+                      SizedBox(height: 4),
+                      RichText(
+                        text: TextSpan(children: <TextSpan>[
+                          TextSpan(
+                            text: 'Credits : ',
+                            style: kDefaultTextStyle.copyWith(
+                              color: kGrey4,
+                              fontSize: 16,
+                            ),
+                          ),
+                          TextSpan(
+                            text:
+                                '\$${loggedInUser.credits.toStringAsFixed(2)}',
+                            style: kDefaultTextStyle.copyWith(
+                                color: kOrange4, fontSize: 20),
+                          ),
+                        ]),
+                      ),
                     ],
                   )
                 ],
@@ -51,6 +73,14 @@ class CustomDrawer extends StatelessWidget {
                   title: Text('Reload', style: kDefaultTextStyle),
                   onTap: () {
                     // TODO: Reload credits
+                    print('Reload');
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.shopping_cart),
+                  title: Text('My Cart', style: kDefaultTextStyle),
+                  onTap: () {
+                    Navigator.pushNamed(context, CartView.id);
                   },
                 ),
                 Divider(

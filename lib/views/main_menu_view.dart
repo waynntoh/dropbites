@@ -6,6 +6,9 @@ import 'package:drop_bites/components/item_card.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:math';
+import 'package:drop_bites/views/cart_view.dart';
+import 'package:drop_bites/components/circle_button.dart';
+import 'package:drop_bites/utils/item.dart';
 
 class MainMenuView extends StatefulWidget {
   static const String id = 'main_menu_view';
@@ -17,19 +20,31 @@ class MainMenuView extends StatefulWidget {
 
 class _MainMenuViewState extends State<MainMenuView> {
   List items = [];
-  final rand = Random();
   bool loading = false;
   double loadingOpacity = 1;
   String url = "http://hackanana.com/dropbites/php/get_products.php";
 
   void _loadItems() async {
+    setState(() {
+      loading = true;
+      loadingOpacity = .2;
+    });
     http.post(url, body: {}).then((res) {
       setState(() {
         var extractdata = json.decode(res.body);
         items = extractdata["items"];
       });
+
+      setState(() {
+        loading = false;
+        loadingOpacity = 1;
+      });
     }).catchError((e) {
       print(e);
+      setState(() {
+        loading = false;
+        loadingOpacity = 1;
+      });
     });
   }
 
@@ -60,15 +75,7 @@ class _MainMenuViewState extends State<MainMenuView> {
         print(e);
       });
     } else {
-      setState(() {
-        loading = true;
-        loadingOpacity = .2;
-      });
       _loadItems();
-      setState(() {
-        loading = false;
-        loadingOpacity = 1;
-      });
     }
   }
 
@@ -82,7 +89,7 @@ class _MainMenuViewState extends State<MainMenuView> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async => false,
-          child: Scaffold(
+      child: Scaffold(
         key: MainMenuView.scaffoldKey,
         drawer: CustomDrawer(),
         body: Column(
@@ -101,23 +108,13 @@ class _MainMenuViewState extends State<MainMenuView> {
                     onPressed: () =>
                         MainMenuView.scaffoldKey.currentState.openDrawer(),
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(90),
-                        boxShadow: [kButtonShadow]),
-                    child: CircleAvatar(
-                      radius: 22,
-                      backgroundColor: Colors.white,
-                      child: IconButton(
-                        icon: Icon(Icons.shopping_cart),
-                        color: kOrange3,
-                        onPressed: () {
-                          // TODO: Cart
-                          print('Shopping cart');
-                        },
-                      ),
-                    ),
-                  )
+                  CircleButton(
+                    color: kOrange3,
+                    icon: Icon(Icons.shopping_cart),
+                    onTap: () {
+                      Navigator.pushNamed(context, CartView.id);
+                    },
+                  ),
                 ],
               ),
             ),
@@ -166,16 +163,21 @@ class _MainMenuViewState extends State<MainMenuView> {
                                         itemCount:
                                             items != null ? items.length : 0,
                                         itemBuilder: (context, index) {
+                                          // Pass item object to item card widget
+                                          Item newItem = Item();
+                                          newItem.setId(items[index]['id']);
+                                          newItem.setName(items[index]['name']);
+                                          newItem.setPrice(double.parse(
+                                              items[index]['price']));
+                                          newItem.setRating(int.parse(
+                                              items[index]['rating']));
+                                          newItem.setType(items[index]['type']);
+                                          newItem.setDescription(
+                                              items[index]['description']);
+
                                           return ItemCard(
-                                            id: items[index]['id'],
-                                            title: items[index]['name'],
-                                            rating:
-                                                int.parse(items[index]['rating']),
-                                            price: double.parse(
-                                                    items[index]['price'])
-                                                .toStringAsFixed(2),
-                                            color: kCardColors[
-                                                rand.nextInt(max(0, 7))],
+                                            item: newItem,
+                                            color: kCardColors[index % 7],
                                           );
                                         },
                                       ),
@@ -184,7 +186,8 @@ class _MainMenuViewState extends State<MainMenuView> {
                                 ),
                                 Center(
                                   heightFactor: 4,
-                                  child: (loading) ? kSpinKitLoader : Container(),
+                                  child:
+                                      (loading) ? kSpinKitLoader : Container(),
                                 )
                               ],
                             )

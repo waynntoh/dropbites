@@ -69,13 +69,17 @@ class _LoginViewState extends State<LoginView>
       "email": email,
       "password": password,
     }).then((res) {
-      if (res.body == "Login Successful") {
+      List<String> echoes = res.body.split(',');
+      if (echoes[0] == "Login Successful") {
         Navigator.pushNamed(context, MainMenuView.id);
 
         // Pass user data to provider
-        // TODO: fullname & phonenumber?
         final loggedInUser = Provider.of<User>(context, listen: false);
-        loggedInUser.setEmail(emailController.text);
+        loggedInUser.setName(echoes[1]);
+        loggedInUser.setEmail(echoes[2]);
+        loggedInUser.setPhoneNumber(echoes[3]);
+        loggedInUser.setCredit(double.parse(echoes[4]));
+        loggedInUser.setRegDate(DateTime.parse(echoes[5]));
       } else {
         CustomSnackbar.showSnackbar(
             text: 'Login Failed',

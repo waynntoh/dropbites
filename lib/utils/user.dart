@@ -1,23 +1,33 @@
 class User {
-  String fullName;
-  String email;
-  String phoneNumber;
+  String _name;
+  String _email;
+  String _phoneNumber;
+  double _credits;
+  DateTime _regDate;
 
-  User({this.fullName, this.email, this.phoneNumber});
-
-  void setName(String _fullName) {
-    fullName = _fullName;
+  void setName(String name) {
+    _name = name;
   }
 
-  void setEmail(String _email) {
-    email = _email;
+  void setEmail(String email) {
+    _email = email;
   }
 
-  void setPhoneNumber(String _phoneNumber) {
-    phoneNumber = _phoneNumber;
+  void setPhoneNumber(String phoneNumber) {
+    _phoneNumber = phoneNumber;
   }
 
-  get gFullName => fullName;
-  get gEmail => email;
-  get gPhoneNumber => phoneNumber;
+  void setCredit(double credits) {
+    _credits = credits;
+  }
+
+  void setRegDate(DateTime regDate) {
+    _regDate = regDate;
+  }
+
+  get name => _name;
+  get email => _email;
+  get phoneNumber => _phoneNumber;
+  get credits => _credits;
+  get regDate => _regDate;
 }
