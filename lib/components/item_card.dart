@@ -1,26 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:drop_bites/utils/constants.dart';
+import 'package:drop_bites/utils/item.dart';
+import 'package:drop_bites/views/item_view.dart';
+import 'package:drop_bites/components/rating_stars.dart';
 
 class ItemCard extends StatelessWidget {
-  final String id;
-  final String title;
-  final String price;
   final Color color;
-  final int rating;
+  final Item item;
 
-  ItemCard(
-      {@required this.id,
-      @required this.price,
-      @required this.rating,
-      @required this.title,
-      this.color});
+  ItemCard({@required this.item, this.color});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Add to cart on item
-        print('Add $title to cart');
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ItemView(
+              item: item,
+            ),
+          ),
+        );
       },
       child: SizedBox(
         width: 280,
@@ -41,9 +42,8 @@ class ItemCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    // Resize images, currently too big
                     image: NetworkImage(
-                        'http://hackanana.com/dropbites/product_images/$id.jpg'),
+                        'http://hackanana.com/dropbites/product_images/${item.id}.jpg'),
                   ),
                 ),
               ),
@@ -60,23 +60,18 @@ class ItemCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     Text(
-                      title,
-                      style: kCardTitleTextStyle.copyWith(
-                        fontWeight: FontWeight.w900,
-                      ),
+                      item.name,
+                      style: kCardTitleTextStyle,
                       textAlign: TextAlign.start,
                     ),
                     Text(
-                      '\$$price',
+                      '\$${item.price.toStringAsFixed(2)}',
                       style: kCardTitleTextStyle.copyWith(
-                        color: kOrange3,
-                        fontSize: 19,
                         fontWeight: FontWeight.w900,
+                        color: kGrey5,
                       ),
                     ),
-                    Row(
-                      children: _buildRatings(),
-                    ),
+                    RatingStars(rating: item.rating),
                   ],
                 ),
                 decoration: BoxDecoration(
@@ -91,43 +86,4 @@ class ItemCard extends StatelessWidget {
       ),
     );
   }
-
-  List<Widget> _buildRatings() {
-    List<Widget> stars = [];
-
-    for (int i = 0; i < 5; i++) {
-      (i < rating)
-          ? stars.add(
-              Icon(
-                Icons.star,
-                color: kOrange3,
-              ),
-            )
-          : stars.add(
-              Icon(
-                Icons.star,
-                color: kOrange1,
-              ),
-            );
-    }
-    return stars;
-  }
 }
-
-// ADD TO CART
-// Row(
-//                     mainAxisAlignment: MainAxisAlignment.start,
-//                     children: <Widget>[
-//                       Icon(
-//                         Icons.remove_circle_outline,
-//                         size: 40,
-//                         color: kGrey5,
-//                       ),
-//                       SizedBox(width: 24),
-//                       Icon(
-//                         Icons.add_circle_outline,
-//                         size: 40,
-//                         color: kGrey5,
-//                       ),
-//                     ],
-//                   ),
