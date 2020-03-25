@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:drop_bites/utils/constants.dart';
 import 'package:drop_bites/components/circle_button.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:drop_bites/components/cart_item.dart';
+import 'package:drop_bites/components/cart_items.dart';
 
 class CartView extends StatefulWidget {
   static const String id = 'cart_view';
@@ -103,43 +102,7 @@ class _CartViewState extends State<CartView> {
           // Title + Toggle delete + Listview
           Positioned(
             top: 90,
-            child: Container(
-              height: height / 1.55,
-              width: width,
-              padding: EdgeInsets.all(24),
-              child: Column(
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(
-                        'My Cart',
-                        style: kSplashScreenTextStyle.copyWith(
-                            fontWeight: FontWeight.w900, fontSize: 36),
-                      ),
-                      IconButton(
-                        icon: FaIcon(FontAwesomeIcons.solidTrashAlt),
-                        onPressed: () {
-                          // TODO: Toggle delete
-                          print('Toggle delete');
-                        },
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 24),
-                  SizedBox(
-                    height: height / 2.1,
-                    child: ListView.builder(
-                      physics: ClampingScrollPhysics(),
-                      itemCount: 3,
-                      itemBuilder: (context, index) {
-                        return CartItem();
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            child: CartItems()
           ),
           // Total Price
           Positioned(
@@ -176,4 +139,6 @@ class _CartViewState extends State<CartView> {
       ),
     );
   }
+
+  
 }
