@@ -83,6 +83,14 @@ class CustomDrawer extends StatelessWidget {
                     Navigator.pushNamed(context, CartView.id);
                   },
                 ),
+                ListTile(
+                  leading: Icon(Icons.receipt),
+                  title: Text('Receipts', style: kDefaultTextStyle),
+                  onTap: () {
+                    // TODO: Receipts view
+                    print('receipt view');
+                  },
+                ),
                 Divider(
                   thickness: 1,
                 ),

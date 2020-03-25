@@ -1,8 +1,6 @@
 import 'package:drop_bites/views/cart_view.dart';
-import 'package:drop_bites/views/item_view.dart';
 import 'package:drop_bites/views/splash_view.dart';
 import 'package:flutter/material.dart';
-
 import 'package:drop_bites/utils/constants.dart';
 import 'package:drop_bites/views/login_view.dart';
 import 'package:drop_bites/views/register_view.dart';

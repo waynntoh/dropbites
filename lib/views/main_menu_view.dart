@@ -5,7 +5,6 @@ import 'package:drop_bites/components/overhead_selector.dart';
 import 'package:drop_bites/components/item_card.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'dart:math';
 import 'package:drop_bites/views/cart_view.dart';
 import 'package:drop_bites/components/circle_button.dart';
 import 'package:drop_bites/utils/item.dart';
@@ -169,12 +168,11 @@ class _MainMenuViewState extends State<MainMenuView> {
                                           newItem.setName(items[index]['name']);
                                           newItem.setPrice(double.parse(
                                               items[index]['price']));
-                                          newItem.setRating(int.parse(
+                                          newItem.setRating(double.parse(
                                               items[index]['rating']));
                                           newItem.setType(items[index]['type']);
                                           newItem.setDescription(
                                               items[index]['description']);
-
                                           return ItemCard(
                                             item: newItem,
                                             color: kCardColors[index % 7],
