@@ -2,7 +2,7 @@ class Item {
   String _name;
   String _id;
   double _price;
-  int _rating;
+  double _rating;
   String _type;
   String _description;
 
@@ -18,7 +18,7 @@ class Item {
     _price = price;
   }
 
-  void setRating(int rating) {
+  void setRating(double rating) {
     _rating = rating;
   }
 

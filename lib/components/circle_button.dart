@@ -3,8 +3,8 @@ import 'package:drop_bites/utils/constants.dart';
 
 class CircleButton extends StatelessWidget {
   final Icon icon;
-  final Function onTap;
   final Color color;
+  final Function onTap;
 
   CircleButton(
       {@required this.icon, @required this.onTap, @required this.color});

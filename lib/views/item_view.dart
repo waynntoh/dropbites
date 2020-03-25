@@ -211,7 +211,7 @@ class _ItemViewState extends State<ItemView> {
           ),
           Positioned(
             top: 36,
-            left: 24,
+            left: 16,
             child: CircleButton(
               color: kOrange3,
               icon: Icon(Icons.arrow_back_ios),
