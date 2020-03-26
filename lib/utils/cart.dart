@@ -8,8 +8,12 @@ class Cart {
     _userEmail = userEmail;
   }
 
-  void add(Item newItem, int count) {
-    _items.add({'name': newItem.name, 'count': count});
+  void add(Item newItem, int count, double subtotal) {
+    _items.add({'item': newItem, 'count': count, 'subtotal': subtotal});
+  }
+
+  void drop(index) {
+    _items.removeAt(index);
   }
 
   get userEmail => _userEmail;
