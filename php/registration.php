@@ -22,7 +22,7 @@ else
 function sendEmail($useremail) {
     $to      = $useremail; 
     $subject = 'DropBites Registration Verification'; 
-    $message = 'http://hackanana.com/dropbites/php/registration_verification.php?email='.$useremail; 
+    $message = 'Verify your email with the link provided here: http://hackanana.com/dropbites/php/registration_verification.php?email='.$useremail; 
     $headers = 'From: noreply@dropbites.com' . "\r\n" . 
     'Reply-To: '.$useremail . "\r\n" . 
     'X-Mailer: PHP/' . phpversion(); 

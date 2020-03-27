@@ -61,12 +61,12 @@ class ItemCard extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       item.name,
-                      style: kCardTitleTextStyle,
+                      style: kDefaultTextStyle.copyWith(fontSize: 21),
                       textAlign: TextAlign.start,
                     ),
                     Text(
                       '\$${item.price.toStringAsFixed(2)}',
-                      style: kCardTitleTextStyle.copyWith(
+                      style: kNumeralTextStyle.copyWith(
                         fontWeight: FontWeight.w900,
                         color: kGrey5,
                       ),

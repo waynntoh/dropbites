@@ -37,3 +37,7 @@ flutter:
     - family: Slabo
       fonts:
         - asset: fonts/Slabo27px-Regular.ttf
+
+    - family: Rokkitt
+      fonts:
+        - asset: fonts/Rokkitt-Regular.ttf

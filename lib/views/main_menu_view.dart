@@ -8,6 +8,8 @@ import 'dart:convert';
 import 'package:drop_bites/views/cart_view.dart';
 import 'package:drop_bites/components/circle_button.dart';
 import 'package:drop_bites/utils/item.dart';
+import 'package:provider/provider.dart';
+import 'package:drop_bites/utils/user.dart';
 
 class MainMenuView extends StatefulWidget {
   static const String id = 'main_menu_view';
@@ -21,7 +23,7 @@ class _MainMenuViewState extends State<MainMenuView> {
   List items = [];
   bool loading = false;
   double loadingOpacity = 1;
-  String url = "http://hackanana.com/dropbites/php/get_products.php";
+  String url = 'http://hackanana.com/dropbites/php/get_products.php';
 
   void _loadItems() async {
     setState(() {
@@ -86,6 +88,7 @@ class _MainMenuViewState extends State<MainMenuView> {
 
   @override
   Widget build(BuildContext context) {
+    final loggedInUser = Provider.of<User>(context, listen: false);
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -109,9 +112,15 @@ class _MainMenuViewState extends State<MainMenuView> {
                   ),
                   CircleButton(
                     color: kOrange3,
-                    icon: Icon(Icons.shopping_cart),
+                    child: Icon(Icons.shopping_cart),
                     onTap: () {
-                      Navigator.pushNamed(context, CartView.id);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              CartView(email: loggedInUser.email),
+                        ),
+                      );
                     },
                   ),
                 ],

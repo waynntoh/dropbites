@@ -21,7 +21,7 @@ class ItemView extends StatefulWidget {
 
 class _ItemViewState extends State<ItemView> {
   int itemCount = 1;
-  String addToCartUrl = 'http://hackanana.com/dropbites/php/add_to_cart.php';
+  String url = 'http://hackanana.com/dropbites/php/add_to_cart.php';
   bool loading = false;
   double loadingOpacity = 1;
 
@@ -32,7 +32,7 @@ class _ItemViewState extends State<ItemView> {
       loadingOpacity = .5;
     });
     http.post(
-      addToCartUrl,
+      url,
       body: {
         "product_id": widget.item.id,
         "product_count": itemCount.toString(),
@@ -40,10 +40,9 @@ class _ItemViewState extends State<ItemView> {
       },
     ).then(
       (res) {
-        print(res.body);
         if (res.body == "Added Successfully") {
           CustomSnackbar.showSnackbar(
-              text: 'Added ${widget.item.name} x$itemCount',
+              text: 'Added x$itemCount ${widget.item.name}',
               scaffoldKey: MainMenuView.scaffoldKey,
               iconData: Icons.shopping_cart);
           Navigator.pop(context);
@@ -112,7 +111,7 @@ class _ItemViewState extends State<ItemView> {
                               ),
                               Text(
                                 '\$${widget.item.price.toStringAsFixed(2)}',
-                                style: kDefaultTextStyle.copyWith(
+                                style: kNumeralTextStyle.copyWith(
                                     fontSize: 24,
                                     color: kOrange4,
                                     fontWeight: FontWeight.w900),
@@ -138,13 +137,13 @@ class _ItemViewState extends State<ItemView> {
                               Row(
                                 children: <Widget>[
                                   Icon(
-                                    Icons.local_shipping,
+                                    Icons.shopping_basket,
                                     size: 28,
                                     color: kGrey1,
                                   ),
                                   SizedBox(width: 16),
                                   Text(
-                                    'Standard Delivery',
+                                    'Freshly Made',
                                     style: kDefaultTextStyle.copyWith(
                                       color: kGrey4,
                                     ),
@@ -188,7 +187,7 @@ class _ItemViewState extends State<ItemView> {
                                       width: 48,
                                       child: Center(
                                         child: Text(itemCount.toString(),
-                                            style: kDefaultTextStyle.copyWith(
+                                            style: kNumeralTextStyle.copyWith(
                                                 color: kOrange3, fontSize: 32)),
                                       ),
                                     ),
@@ -273,7 +272,7 @@ class _ItemViewState extends State<ItemView> {
                 left: 16,
                 child: CircleButton(
                   color: kOrange3,
-                  icon: Icon(Icons.arrow_back_ios),
+                  child: Icon(Icons.arrow_back_ios),
                   onTap: () {
                     Navigator.pop(context);
                   },
