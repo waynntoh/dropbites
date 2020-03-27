@@ -53,7 +53,7 @@ class CustomDrawer extends StatelessWidget {
                           TextSpan(
                             text:
                                 '\$${loggedInUser.credits.toStringAsFixed(2)}',
-                            style: kDefaultTextStyle.copyWith(
+                            style: kNumeralTextStyle.copyWith(
                                 color: kOrange4, fontSize: 20),
                           ),
                         ]),

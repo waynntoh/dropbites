@@ -112,7 +112,7 @@ class _MainMenuViewState extends State<MainMenuView> {
                   ),
                   CircleButton(
                     color: kOrange3,
-                    icon: Icon(Icons.shopping_cart),
+                    child: Icon(Icons.shopping_cart),
                     onTap: () {
                       Navigator.push(
                         context,

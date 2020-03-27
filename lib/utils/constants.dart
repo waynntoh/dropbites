@@ -69,6 +69,11 @@ const kDefaultTextStyle = TextStyle(
   fontSize: 16,
 );
 
+const kNumeralTextStyle = TextStyle(
+  fontFamily: 'Rokkitt',
+  fontSize: 20,
+);
+
 const kSplashScreenTextStyle = TextStyle(
   fontSize: 55,
   fontFamily: 'Slabo',

@@ -12,8 +12,8 @@ class Cart {
     _items.add({'item': newItem, 'count': count, 'subtotal': subtotal});
   }
 
-  void drop(index) {
-    _items.removeAt(index);
+  void clear() {
+    _items.clear();
   }
 
   get userEmail => _userEmail;
