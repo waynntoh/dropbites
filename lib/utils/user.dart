@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class User {
   String _name;
   String _email;
@@ -22,12 +24,12 @@ class User {
   }
 
   void setRegDate(DateTime regDate) {
-    _regDate = regDate;
+    _regDate =  regDate;
   }
 
   get name => _name;
   get email => _email;
   get phoneNumber => _phoneNumber;
   get credits => _credits;
-  get regDate => _regDate;
+  get regDate => DateFormat('dd/MM/yyyy').format(_regDate);
 }

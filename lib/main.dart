@@ -4,6 +4,7 @@ import 'package:drop_bites/utils/constants.dart';
 import 'package:drop_bites/views/login_view.dart';
 import 'package:drop_bites/views/register_view.dart';
 import 'package:drop_bites/views/main_menu_view.dart';
+import 'package:drop_bites/views/account_view.dart';
 import 'utils/user.dart';
 import 'package:provider/provider.dart';
 
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute: SplashView.id,
         routes: {
+          AccountView.id: (context) => AccountView(),
           RegisterView.id: (context) => RegisterView(),
           MainMenuView.id: (context) => MainMenuView(),
           LoginView.id: (context) => LoginView(),
