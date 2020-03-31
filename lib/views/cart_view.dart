@@ -25,7 +25,6 @@ class _CartViewState extends State<CartView> {
   int totalItems = 0;
   bool loading = false;
   double loadingOpacity = 1;
-
   String getCartURL = 'http://hackanana.com/dropbites/php/get_cart.php';
   String deleteItemURL =
       'http://hackanana.com/dropbites/php/delete_from_cart.php';
@@ -138,7 +137,6 @@ class _CartViewState extends State<CartView> {
                         loading = false;
                         loadingOpacity = 1;
                       });
-                      print(totalPrice);
                     }).catchError((e) {
                       print(e);
                       setState(() {
@@ -204,10 +202,6 @@ class _CartViewState extends State<CartView> {
                   onTap: () {
                     // TODO: Checkout
                     print('Checkout');
-                    setState(() {
-                      print(totalItems);
-                      print(totalPrice);
-                    });
                   },
                   child: Container(
                     width: width,
@@ -243,12 +237,11 @@ class _CartViewState extends State<CartView> {
                             height: 30,
                           ),
                         ),
-                        CircleAvatar(
-                          backgroundColor: kOrange3,
-                          child: Icon(
-                            Icons.arrow_forward_ios,
-                            color: kGrey6,
-                            size: 24,
+                        Center(
+                          child: FaIcon(
+                            FontAwesomeIcons.arrowAltCircleRight,
+                            color: kOrange3,
+                            size: 45,
                           ),
                         )
                       ],
@@ -450,18 +443,16 @@ class _CartViewState extends State<CartView> {
                             TextSpan(
                               text: 'x',
                               style: kDefaultTextStyle.copyWith(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w900,
-                                color: kGrey6
-                              ),
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w900,
+                                  color: kGrey6),
                             ),
                             TextSpan(
                               text: count.toString(),
                               style: kNumeralTextStyle.copyWith(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w900,
-                                color: kGrey6
-                              ),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w900,
+                                  color: kGrey6),
                             ),
                           ],
                         ),

@@ -35,10 +35,6 @@ class ItemCard extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                   boxShadow: [kItemCardShadow],
-                  gradient: LinearGradient(
-                      colors: [kGrey1, Colors.white],
-                      begin: Alignment.topRight,
-                      end: Alignment.bottomLeft),
                   borderRadius: BorderRadius.circular(12),
                   image: DecorationImage(
                     fit: BoxFit.cover,
@@ -55,6 +51,14 @@ class ItemCard extends StatelessWidget {
               width: 200,
               child: Container(
                 padding: EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  boxShadow: [kItemCardTitleShadow],
+                  gradient: LinearGradient(
+                      colors: [Colors.white, color],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter),
+                  borderRadius: BorderRadius.circular(12),
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -73,11 +77,6 @@ class ItemCard extends StatelessWidget {
                     ),
                     RatingStars(rating: item.rating),
                   ],
-                ),
-                decoration: BoxDecoration(
-                  boxShadow: [kItemCardTitleShadow],
-                  color: color,
-                  borderRadius: BorderRadius.circular(12),
                 ),
               ),
             )

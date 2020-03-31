@@ -24,6 +24,7 @@ class _MainMenuViewState extends State<MainMenuView> {
   bool loading = false;
   double loadingOpacity = 1;
   String url = 'http://hackanana.com/dropbites/php/get_products.php';
+  ScrollController scrollController = ScrollController();
 
   void _loadItems() async {
     setState(() {
@@ -65,6 +66,11 @@ class _MainMenuViewState extends State<MainMenuView> {
           items = extractdata["items"];
         });
         setState(() {
+          scrollController.animateTo(
+            scrollController.initialScrollOffset,
+            duration: Duration(milliseconds: 500),
+            curve: Curves.easeOut,
+          );
           loading = false;
           loadingOpacity = 1;
         });
@@ -105,7 +111,7 @@ class _MainMenuViewState extends State<MainMenuView> {
                   IconButton(
                     icon: Icon(
                       Icons.menu,
-                      color: kGrey3,
+                      color: kOrange3,
                     ),
                     onPressed: () =>
                         MainMenuView.scaffoldKey.currentState.openDrawer(),
@@ -166,6 +172,7 @@ class _MainMenuViewState extends State<MainMenuView> {
                                     child: SizedBox(
                                       height: 530,
                                       child: ListView.builder(
+                                        controller: scrollController,
                                         physics: ClampingScrollPhysics(),
                                         scrollDirection: Axis.horizontal,
                                         itemCount:
