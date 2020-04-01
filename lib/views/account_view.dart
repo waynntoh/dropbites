@@ -149,16 +149,16 @@ class _AccountViewState extends State<AccountView> {
           Positioned(
             top: 36,
             left: 16,
-            child: CircleAvatar(
-              radius: 24,
-              backgroundColor: kGrey3,
+            child: GestureDetector(
+              onTap: () {
+                AccountView.scaffoldKey.currentState.openDrawer();
+              },
               child: CircleAvatar(
-                radius: 22,
-                backgroundColor: Colors.white,
-                child: GestureDetector(
-                  onTap: () {
-                    AccountView.scaffoldKey.currentState.openDrawer();
-                  },
+                radius: 24,
+                backgroundColor: kGrey3,
+                child: CircleAvatar(
+                  radius: 22,
+                  backgroundColor: Colors.white,
                   child: Icon(
                     Icons.menu,
                     color: kOrange3,
@@ -252,7 +252,7 @@ class _AccountViewState extends State<AccountView> {
                   print('Edit info');
                 },
                 child: FaIcon(
-                  FontAwesomeIcons.edit,
+                  FontAwesomeIcons.userEdit,
                   color: kOrange4,
                 ),
               ),
@@ -274,6 +274,15 @@ class _AccountViewState extends State<AccountView> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(colors: [
+                  Colors.green[50],
+                  Colors.green[100],
+                ], begin: Alignment.topRight, end: Alignment.bottomLeft),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(12),
+                ),
+              ),
               padding: EdgeInsets.all(8),
               width: width / 3.5,
               child: Column(
@@ -294,6 +303,15 @@ class _AccountViewState extends State<AccountView> {
               ),
             ),
             Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(colors: [
+                  Colors.blue[50],
+                  Colors.blue[100],
+                ], begin: Alignment.topRight, end: Alignment.bottomLeft),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(12),
+                ),
+              ),
               padding: EdgeInsets.all(8),
               width: width / 3.5,
               child: Column(
@@ -314,13 +332,22 @@ class _AccountViewState extends State<AccountView> {
               ),
             ),
             Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(colors: [
+                  Colors.orange[50],
+                  Colors.orange[100],
+                ], begin: Alignment.topRight, end: Alignment.bottomLeft),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(12),
+                ),
+              ),
               padding: EdgeInsets.all(8),
               width: width / 3.5,
               child: Column(
                 children: <Widget>[
                   FaIcon(
                     FontAwesomeIcons.calendarAlt,
-                    color: kOrange3,
+                    color: kOrange4,
                   ),
                   SizedBox(height: 8),
                   Text(
