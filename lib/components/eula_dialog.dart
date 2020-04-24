@@ -16,7 +16,7 @@ class _EulaDialogState extends State<EulaDialog> {
     return AlertDialog(
       title: Text(
         'End User License Agreement',
-        style: TextStyle(
+        style: kDefaultTextStyle.copyWith(
           fontWeight: FontWeight.w900,
           fontSize: 23,
         ),

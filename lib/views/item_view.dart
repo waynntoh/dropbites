@@ -25,50 +25,6 @@ class _ItemViewState extends State<ItemView> {
   bool loading = false;
   double loadingOpacity = 1;
 
-  void _addToCart(String email) {
-    // Start loading spinkit & block taps
-    setState(() {
-      loading = true;
-      loadingOpacity = .5;
-    });
-    http.post(
-      url,
-      body: {
-        "product_id": widget.item.id,
-        "product_count": itemCount.toString(),
-        "email": email,
-      },
-    ).then(
-      (res) {
-        if (res.body == "Added Successfully") {
-          CustomSnackbar.showSnackbar(
-              text: 'Added x$itemCount ${widget.item.name}',
-              scaffoldKey: MainMenuView.scaffoldKey,
-              iconData: Icons.shopping_cart);
-          Navigator.pop(context);
-        } else {
-          CustomSnackbar.showSnackbar(
-              text: 'Something went wrong!',
-              scaffoldKey: MainMenuView.scaffoldKey,
-              iconData: Icons.error);
-          Navigator.pop(context);
-        }
-        setState(() {
-          loading = false;
-          loadingOpacity = 1;
-        });
-      },
-    ).catchError(
-      (err) {
-        setState(() {
-          loading = false;
-          loadingOpacity = 1;
-        });
-        print(err);
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final loggedInUser = Provider.of<User>(context, listen: false);
@@ -283,6 +239,50 @@ class _ItemViewState extends State<ItemView> {
           ),
         ),
       ),
+    );
+  }
+
+  void _addToCart(String email) {
+    // Start loading spinkit & block taps
+    setState(() {
+      loading = true;
+      loadingOpacity = .5;
+    });
+    http.post(
+      url,
+      body: {
+        "product_id": widget.item.id,
+        "product_count": itemCount.toString(),
+        "email": email,
+      },
+    ).then(
+      (res) {
+        if (res.body == "Added Successfully") {
+          CustomSnackbar.showSnackbar(
+              text: 'Added x$itemCount ${widget.item.name}',
+              scaffoldKey: MainMenuView.scaffoldKey,
+              iconData: Icons.shopping_cart);
+          Navigator.pop(context);
+        } else {
+          CustomSnackbar.showSnackbar(
+              text: 'Something went wrong!',
+              scaffoldKey: MainMenuView.scaffoldKey,
+              iconData: Icons.error);
+          Navigator.pop(context);
+        }
+        setState(() {
+          loading = false;
+          loadingOpacity = 1;
+        });
+      },
+    ).catchError(
+      (err) {
+        setState(() {
+          loading = false;
+          loadingOpacity = 1;
+        });
+        print(err);
+      },
     );
   }
 }

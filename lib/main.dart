@@ -20,8 +20,6 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           textTheme: TextTheme(
               button: kButtonTextStyle,
-              body1: kDefaultTextStyle,
-              title: kDefaultTextStyle,
               caption: kDefaultTextStyle),
         ),
         initialRoute: SplashView.id,

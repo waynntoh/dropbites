@@ -80,6 +80,7 @@ class _LoginViewState extends State<LoginView>
         loggedInUser.setPhoneNumber(echoes[3]);
         loggedInUser.setCredit(double.parse(echoes[4]));
         loggedInUser.setRegDate(DateTime.parse(echoes[5]));
+        echoes[6] == '0' ? loggedInUser.setVerified(false) : loggedInUser.setVerified(true);
       } else {
         CustomSnackbar.showSnackbar(
             text: 'Login Failed',
@@ -210,6 +211,7 @@ class _LoginViewState extends State<LoginView>
                                 GestureDetector(
                                   child: Text(
                                     'Remember Me',
+                                    style: kDefaultTextStyle,
                                   ),
                                   onTap: () => _toggleRememberMe(),
                                 ),
@@ -256,7 +258,7 @@ class _LoginViewState extends State<LoginView>
                               child: Text(
                                 'Forgot Password?',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(color: kOrange6),
+                                style: kDefaultTextStyle.copyWith(color: kOrange6),
                               ),
                               onTap: () {
                                 showDialog(

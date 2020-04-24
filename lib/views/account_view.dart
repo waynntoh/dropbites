@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:ui';
 import 'package:drop_bites/components/custom_drawer.dart';
-import 'package:drop_bites/components/history_item.dart';
+import 'package:drop_bites/components/custom_snackbar.dart';
+import 'package:drop_bites/components/edit_user_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/fa_icon.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -25,8 +27,201 @@ class _AccountViewState extends State<AccountView> {
   User loggedInUser;
   File _userImage;
   bool editable = false;
-  String imageDirectoryUrl = 'http://hackanana.com/dropbites/user_images';
+  String uploadImageUrl =
+      'http://hackanana.com/dropbites/php/upload_user_image.php';
   TextEditingController nameController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    loggedInUser = Provider.of<User>(context, listen: false);
+    height = MediaQuery.of(context).size.height;
+    width = MediaQuery.of(context).size.width;
+
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        key: AccountView.scaffoldKey,
+        drawer: CustomDrawer(),
+        backgroundColor: Colors.white,
+        body: Stack(
+          children: <Widget>[
+            _buildTopHalf(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTopHalf() {
+    return Positioned(
+      child: Stack(
+        children: <Widget>[
+          Container(
+            width: width,
+            height: height / 1.65,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: NetworkImage(
+                    'http://hackanana.com/dropbites/user_images/${loggedInUser.email}.jpg'),
+              ),
+            ),
+          ),
+          Container(
+            width: width,
+            height: height / 1.65,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(colors: [
+                Colors.white.withOpacity(0.1),
+                Colors.white.withOpacity(0.3),
+                Colors.white.withOpacity(0.75),
+                Colors.white.withOpacity(1),
+              ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+              border: Border.all(
+                color: Colors.white.withOpacity(0),
+              ),
+            ),
+          ),
+          Positioned(
+            top: height / 1.95,
+            right: 16,
+            child: GestureDetector(
+              onTap: () => _getUserImage(),
+              child: CircleAvatar(
+                radius: 24,
+                backgroundColor: kGrey1,
+                child: CircleAvatar(
+                  radius: 22,
+                  backgroundColor: Colors.white,
+                  child: FaIcon(
+                    FontAwesomeIcons.cameraRetro,
+                    color: kOrange4,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            top: height / 1.95,
+            right: 72,
+            child: GestureDetector(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => EditUserDialog(),
+                );
+              },
+              child: CircleAvatar(
+                radius: 24,
+                backgroundColor: kGrey1,
+                child: CircleAvatar(
+                  radius: 22,
+                  backgroundColor: Colors.white,
+                  child: FaIcon(
+                    FontAwesomeIcons.solidEdit,
+                    color: kOrange4,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            top: height / 2.2,
+            left: 24,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Text(
+                      loggedInUser.name,
+                      style: kDefaultTextStyle.copyWith(
+                        fontSize: 32,
+                        color: kGrey6,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
+                    SizedBox(width: 12),
+                    (loggedInUser.verified)
+                        ? FaIcon(
+                            FontAwesomeIcons.checkCircle,
+                            size: 18,
+                            color: Colors.green,
+                          )
+                        : FaIcon(
+                            FontAwesomeIcons.timesCircle,
+                            size: 18,
+                            color: Colors.red[500],
+                          )
+                  ],
+                ),
+                SizedBox(height: 8),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    FaIcon(
+                      FontAwesomeIcons.at,
+                      size: 16,
+                      color: kGrey4,
+                    ),
+                    SizedBox(width: 8),
+                    Text(
+                      '${loggedInUser.email}',
+                      style: kDefaultTextStyle.copyWith(
+                          fontSize: 18, color: kGrey4),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 6),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    FaIcon(
+                      FontAwesomeIcons.phone,
+                      size: 16,
+                      color: kGrey4,
+                    ),
+                    SizedBox(width: 8),
+                    Text(
+                      '${loggedInUser.phoneNumber}',
+                      style: kNumeralTextStyle.copyWith(
+                          fontSize: 18, color: kGrey4, letterSpacing: .5),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            top: 36,
+            left: 16,
+            child: GestureDetector(
+              onTap: () {
+                AccountView.scaffoldKey.currentState.openDrawer();
+              },
+              child: CircleAvatar(
+                radius: 24,
+                backgroundColor: kGrey3,
+                child: CircleAvatar(
+                  radius: 22,
+                  backgroundColor: Colors.white,
+                  child: Icon(
+                    Icons.menu,
+                    color: kOrange4,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBottomHalf() {
+    // TODO: Bottom half
+  }
 
   Future _getUserImage() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
@@ -78,8 +273,7 @@ class _AccountViewState extends State<AccountView> {
                     onPressed: () {
                       AccountView.scaffoldKey.currentState
                           .hideCurrentSnackBar();
-                      // TODO: Upload image
-                      print('Upload image');
+                      uploadImage(image);
                     },
                   )
                 ],
@@ -91,292 +285,23 @@ class _AccountViewState extends State<AccountView> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    loggedInUser = Provider.of<User>(context, listen: false);
-    height = MediaQuery.of(context).size.height;
-    width = MediaQuery.of(context).size.width;
+  void uploadImage(File imageFile) async {
+    String base64Image = base64Encode(imageFile.readAsBytesSync());
+    http.post(uploadImageUrl, body: {
+      "encoded_string": base64Image,
+      "email": loggedInUser.email,
+    }).then((res) {
+      if (res.body == "Upload Successful") {
+        CustomSnackbar.showSnackbar(
+            scaffoldKey: AccountView.scaffoldKey,
+            text: 'Upload Successful',
+            iconData: Icons.check_circle);
 
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
-        key: AccountView.scaffoldKey,
-        drawer: CustomDrawer(),
-        backgroundColor: Colors.white,
-        body: Stack(
-          children: <Widget>[
-            _buildTopHalf(),
-            _buildBottomHalf(),
-            _buildHistory(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTopHalf() {
-    return Positioned(
-      child: Stack(
-        children: <Widget>[
-          Container(
-            width: width,
-            height: height / 1.65,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: NetworkImage(
-                    'http://hackanana.com/dropbites/user_images/${loggedInUser.email}.jpg'),
-              ),
-            ),
-          ),
-          Container(
-            width: width,
-            height: height / 1.65,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [
-                Colors.white.withOpacity(0.1),
-                Colors.white.withOpacity(0.3),
-                Colors.white.withOpacity(0.75),
-                Colors.white.withOpacity(1),
-              ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
-              border: Border.all(
-                color: Colors.white.withOpacity(0),
-              ),
-            ),
-          ),
-          _buildTopInfo(),
-          _buildTopButtons(),
-          Positioned(
-            top: 36,
-            left: 16,
-            child: CircleAvatar(
-              radius: 24,
-              backgroundColor: kGrey3,
-              child: CircleAvatar(
-                radius: 22,
-                backgroundColor: Colors.white,
-                child: GestureDetector(
-                  onTap: () {
-                    AccountView.scaffoldKey.currentState.openDrawer();
-                  },
-                  child: Icon(
-                    Icons.menu,
-                    color: kOrange3,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTopInfo() {
-    return Stack(
-      children: <Widget>[
-        Positioned(
-          top: height / 2.2,
-          left: 24,
-          height: height / 10,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                loggedInUser.name,
-                style: kDefaultTextStyle.copyWith(
-                  fontSize: 32,
-                  color: kGrey6,
-                  fontWeight: FontWeight.w900,
-                ),
-              ),
-              SizedBox(height: 8),
-              Row(
-                children: <Widget>[
-                  FaIcon(
-                    FontAwesomeIcons.at,
-                    size: 16,
-                    color: kGrey4,
-                  ),
-                  SizedBox(width: 4),
-                  Text(
-                    '${loggedInUser.email}',
-                    style:
-                        kDefaultTextStyle.copyWith(fontSize: 18, color: kGrey4),
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildTopButtons() {
-    return Stack(
-      children: <Widget>[
-        Positioned(
-          top: height / 2.05,
-          right: 72,
-          child: CircleAvatar(
-            radius: 24,
-            backgroundColor: kGrey1,
-            child: CircleAvatar(
-              radius: 22,
-              backgroundColor: Colors.white,
-              child: GestureDetector(
-                onTap: () {
-                  _getUserImage();
-                },
-                child: FaIcon(
-                  FontAwesomeIcons.cameraRetro,
-                  color: kOrange4,
-                ),
-              ),
-            ),
-          ),
-        ),
-        Positioned(
-          top: height / 2.05,
-          right: 16,
-          child: CircleAvatar(
-            radius: 24,
-            backgroundColor: kGrey1,
-            child: CircleAvatar(
-              radius: 22,
-              backgroundColor: Colors.white,
-              child: GestureDetector(
-                onTap: () {
-                  // TODO: Edit info
-                  print('Edit info');
-                },
-                child: FaIcon(
-                  FontAwesomeIcons.edit,
-                  color: kOrange4,
-                ),
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildBottomHalf() {
-    return Positioned(
-      top: height / 1.8,
-      width: width,
-      child: Padding(
-        padding: EdgeInsets.all(16),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.all(8),
-              width: width / 3.5,
-              child: Column(
-                children: <Widget>[
-                  FaIcon(
-                    FontAwesomeIcons.creditCard,
-                    color: Colors.green[400],
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    '\$${loggedInUser.credits.toStringAsFixed(2)}',
-                    style: kNumeralTextStyle.copyWith(
-                      fontSize: 17,
-                      color: kGrey4,
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.all(8),
-              width: width / 3.5,
-              child: Column(
-                children: <Widget>[
-                  FaIcon(
-                    FontAwesomeIcons.mobileAlt,
-                    color: Colors.blueAccent,
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    '${loggedInUser.phoneNumber}',
-                    style: kNumeralTextStyle.copyWith(
-                      fontSize: 17,
-                      color: kGrey4,
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.all(8),
-              width: width / 3.5,
-              child: Column(
-                children: <Widget>[
-                  FaIcon(
-                    FontAwesomeIcons.calendarAlt,
-                    color: kOrange3,
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    '${loggedInUser.regDate}',
-                    style: kNumeralTextStyle.copyWith(
-                      fontSize: 17,
-                      color: kGrey4,
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildHistory() {
-    return Stack(
-      children: <Widget>[
-        Positioned(
-          bottom: 0,
-          height: height / 3,
-          width: width,
-          child: Container(
-            padding: EdgeInsets.only(left: 24, right: 24, top: 36, bottom: 24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Text(
-                  'Order History',
-                  style: kDefaultTextStyle.copyWith(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w900,
-                    color: kGrey6,
-                  ),
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: <Widget>[
-                      HistoryItem(),
-                      HistoryItem(),
-                      HistoryItem(),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-        )
-      ],
-    );
+        // Reload widget
+        setState(() {});
+      } else {}
+    }).catchError((err) {
+      print(err);
+    });
   }
 }

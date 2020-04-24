@@ -423,40 +423,49 @@ class _CartViewState extends State<CartView> {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(90),
                   boxShadow: [kItemCardShadow]),
-              child: CircleAvatar(
-                backgroundColor: deletable ? Colors.redAccent[200] : kOrange0,
-                foregroundColor: kGrey6,
-                child: deletable
-                    ? GestureDetector(
-                        child: Icon(
-                          Icons.delete_forever,
-                          color: kGrey6,
-                          size: 30,
+              child: AnimatedCrossFade(
+                firstChild: CircleAvatar(
+                  backgroundColor: kOrange0,
+                  foregroundColor: kGrey6,
+                  child: RichText(
+                    text: TextSpan(
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: 'x',
+                          style: kDefaultTextStyle.copyWith(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w900,
+                              color: kGrey6),
                         ),
-                        onTap: () {
-                          _deleteCartItem(item);
-                        },
-                      )
-                    : RichText(
-                        text: TextSpan(
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: 'x',
-                              style: kDefaultTextStyle.copyWith(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w900,
-                                  color: kGrey6),
-                            ),
-                            TextSpan(
-                              text: count.toString(),
-                              style: kNumeralTextStyle.copyWith(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w900,
-                                  color: kGrey6),
-                            ),
-                          ],
+                        TextSpan(
+                          text: count.toString(),
+                          style: kNumeralTextStyle.copyWith(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w900,
+                              color: kGrey6),
                         ),
-                      ),
+                      ],
+                    ),
+                  ),
+                ),
+                secondChild: CircleAvatar(
+                  backgroundColor: Colors.redAccent[200],
+                  foregroundColor: kGrey6,
+                  child: GestureDetector(
+                    child: Icon(
+                      Icons.delete_forever,
+                      color: kGrey6,
+                      size: 30,
+                    ),
+                    onTap: () {
+                      _deleteCartItem(item);
+                    },
+                  ),
+                ),
+                crossFadeState: deletable
+                    ? CrossFadeState.showSecond
+                    : CrossFadeState.showFirst,
+                duration: Duration(milliseconds: 500),
               ),
             ),
           ),

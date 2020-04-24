@@ -9,36 +9,14 @@ class ResetPasswordDialog extends StatelessWidget {
   final String resetPasswordUrl =
       'http://hackanana.com/dropbites/php/send_reset_email.php';
 
-  void _resetPassword(String email) {
-    http.post(resetPasswordUrl, body: {
-      "email": email,
-    }).then((res) {
-      if (res.body == "Sent Successfully") {
-        CustomSnackbar.showSnackbar(
-            text: 'Reset Email Sent Successfully',
-            scaffoldKey: LoginView.scaffoldKey,
-            iconData: Icons.email);
-      } else {
-        CustomSnackbar.showSnackbar(
-            text: 'Invalid Email',
-            scaffoldKey: LoginView.scaffoldKey,
-            iconData: Icons.error);
-      }
-    }).catchError((err) {
-      print(err);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(
-        'Reset Password',
-        style: TextStyle(
-          fontWeight: FontWeight.w900,
-          fontSize: 23,
-        ),
-      ),
+      title: Text('Reset Password',
+          style: kDefaultTextStyle.copyWith(
+            fontWeight: FontWeight.w900,
+            fontSize: 23,
+          )),
       content: SizedBox(
         height: 130,
         child: Column(
@@ -80,5 +58,25 @@ class ResetPasswordDialog extends StatelessWidget {
         )
       ],
     );
+  }
+
+  void _resetPassword(String email) {
+    http.post(resetPasswordUrl, body: {
+      "email": email,
+    }).then((res) {
+      if (res.body == "Sent Successfully") {
+        CustomSnackbar.showSnackbar(
+            text: 'Reset Email Sent Successfully',
+            scaffoldKey: LoginView.scaffoldKey,
+            iconData: Icons.email);
+      } else {
+        CustomSnackbar.showSnackbar(
+            text: 'Invalid Email',
+            scaffoldKey: LoginView.scaffoldKey,
+            iconData: Icons.error);
+      }
+    }).catchError((err) {
+      print(err);
+    });
   }
 }

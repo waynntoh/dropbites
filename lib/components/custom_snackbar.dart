@@ -5,10 +5,11 @@ class CustomSnackbar {
   static void showSnackbar(
       {@required String text,
       @required GlobalKey<ScaffoldState> scaffoldKey,
-      IconData iconData}) {
+      IconData iconData,
+      Duration duration}) {
     scaffoldKey.currentState.showSnackBar(
       SnackBar(
-        duration: Duration(seconds: 3),
+        duration: duration != null ? duration : Duration(seconds: 3),
         content: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
