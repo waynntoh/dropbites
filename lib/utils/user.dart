@@ -6,6 +6,7 @@ class User {
   String _phoneNumber;
   double _credits;
   DateTime _regDate;
+  bool _verified;
 
   void setName(String name) {
     _name = name;
@@ -27,9 +28,14 @@ class User {
     _regDate =  regDate;
   }
 
+  void setVerified(bool verified) {
+    _verified = verified;
+  }
+
   get name => _name;
   get email => _email;
   get phoneNumber => _phoneNumber;
   get credits => _credits;
   get regDate => DateFormat('dd/MM/yyyy').format(_regDate);
+  get verified => _verified;
 }

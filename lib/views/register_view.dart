@@ -290,8 +290,10 @@ class _RegisterViewState extends State<RegisterView> {
                         GestureDetector(
                           child: Text(
                             'Login',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w500, color: kOrange6),
+                            style: kDefaultTextStyle.copyWith(
+                              fontWeight: FontWeight.w500,
+                              color: kOrange6,
+                            ),
                           ),
                           onTap: () => Navigator.pop(context),
                         )
