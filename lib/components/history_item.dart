@@ -61,7 +61,7 @@ class HistoryItem extends StatelessWidget {
                     style: kDefaultTextStyle.copyWith(color: kGrey4),
                   ),
                   Text(
-                    '\$29.90',
+                    'RM29.90',
                     style: kNumeralTextStyle.copyWith(
                       color: kGrey4,
                       fontSize: 17.5,

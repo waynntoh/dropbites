@@ -66,7 +66,7 @@ class _ItemViewState extends State<ItemView> {
                                 ),
                               ),
                               Text(
-                                '\$${widget.item.price.toStringAsFixed(2)}',
+                                'RM${widget.item.price.toStringAsFixed(2)}',
                                 style: kNumeralTextStyle.copyWith(
                                     fontSize: 24,
                                     color: kOrange4,
