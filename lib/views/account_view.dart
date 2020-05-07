@@ -67,8 +67,6 @@ class _AccountViewState extends State<AccountView> {
               fit: BoxFit.cover,
               image: AdvancedNetworkImage(
                 'http://hackanana.com/dropbites/user_images/${loggedInUser.email}.jpg',
-                useDiskCache: false,
-                disableMemoryCache: true,
               ),
             ),
           ),
@@ -360,7 +358,6 @@ class _AccountViewState extends State<AccountView> {
                       AccountView.scaffoldKey.currentState
                           .hideCurrentSnackBar();
                       uploadImage(image);
-                      setState(() {});
                     },
                   )
                 ],
@@ -383,7 +380,12 @@ class _AccountViewState extends State<AccountView> {
             scaffoldKey: AccountView.scaffoldKey,
             text: 'Upload Successful',
             iconData: Icons.check_circle);
-      } else {}
+      } else {
+        CustomSnackbar.showSnackbar(
+            scaffoldKey: AccountView.scaffoldKey,
+            text: 'Upload Failed',
+            iconData: Icons.error);
+      }
     }).catchError((err) {
       print(err);
     });

@@ -36,7 +36,6 @@ class CustomDrawer extends StatelessWidget {
                     backgroundColor: kGrey1,
                     backgroundImage: AdvancedNetworkImage(
                       'http://hackanana.com/dropbites/user_images/${loggedInUser.email}.jpg',
-                      disableMemoryCache: true
                     ),
                     radius: 40,
                   ),
