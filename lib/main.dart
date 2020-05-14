@@ -1,3 +1,4 @@
+import 'package:drop_bites/views/payment_view.dart';
 import 'package:drop_bites/views/splash_view.dart';
 import 'package:flutter/material.dart';
 import 'package:drop_bites/utils/constants.dart';
@@ -18,12 +19,12 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          textTheme: TextTheme(
-              button: kButtonTextStyle,
-              caption: kDefaultTextStyle),
+          textTheme:
+              TextTheme(button: kButtonTextStyle, caption: kDefaultTextStyle),
         ),
         initialRoute: SplashView.id,
         routes: {
+          PaymentView.id: (context) => PaymentView(),
           AccountView.id: (context) => AccountView(),
           RegisterView.id: (context) => RegisterView(),
           MainMenuView.id: (context) => MainMenuView(),

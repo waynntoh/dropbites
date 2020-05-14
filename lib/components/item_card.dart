@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:drop_bites/utils/constants.dart';
 import 'package:drop_bites/utils/item.dart';
@@ -38,8 +39,9 @@ class ItemCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: NetworkImage(
-                        'http://hackanana.com/dropbites/product_images/${item.id}.jpg'),
+                    image: CachedNetworkImageProvider(
+                      'http://hackanana.com/dropbites/product_images/${item.id}.jpg',
+                    ),
                   ),
                 ),
               ),

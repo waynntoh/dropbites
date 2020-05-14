@@ -13,11 +13,14 @@ class EditUserDialog extends StatefulWidget {
 }
 
 class _EditUserDialogState extends State<EditUserDialog> {
-  List<String> options = ['Name', 'Email', 'Phone Number'];
+  List<String> options = ['Name', 'Email', 'Password', 'Phone Number'];
   String selectedOption = 'Name';
-  TextEditingController textController = TextEditingController();
+  TextEditingController newDataController = TextEditingController();
+  TextEditingController oldPasswordController = TextEditingController();
   String editUserUrl = 'http://hackanana.com/dropbites/php/edit_user.php';
   bool isLoading = false;
+  bool obscureOld = true;
+  bool obscureNew = true;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +32,7 @@ class _EditUserDialogState extends State<EditUserDialog> {
       inAsyncCall: isLoading,
       child: AlertDialog(
         content: SizedBox(
-          height: height / 3.5,
+          height: height / 3,
           width: width / 1.5,
           child: Column(
             children: <Widget>[
@@ -86,12 +89,15 @@ class _EditUserDialogState extends State<EditUserDialog> {
               ),
               SizedBox(height: 24),
               Center(
-                child: buildTextField(loggedInUser, selectedOption, width),
-              )
+                child: Column(
+                  children: <Widget>[
+                    buildTextField(loggedInUser, selectedOption, width),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
-        actionsPadding: EdgeInsets.only(bottom: 8, right: 14),
         actions: [
           FlatButton(
             color: kOrange3,
@@ -101,11 +107,16 @@ class _EditUserDialogState extends State<EditUserDialog> {
             ),
             onPressed: () {
               if (selectedOption == 'Name') {
-                _editUser(loggedInUser, 'full_name', textController.text);
+                _editUser(
+                    loggedInUser, 'full_name', newDataController.text, '');
               } else if (selectedOption == 'Email') {
-                _editUser(loggedInUser, 'email', textController.text);
+                _editUser(loggedInUser, 'email', newDataController.text, '');
+              } else if (selectedOption == 'Phone Number') {
+                _editUser(
+                    loggedInUser, 'phone_number', newDataController.text, '');
               } else {
-                _editUser(loggedInUser, 'phone_number', textController.text);
+                _editUser(loggedInUser, 'password', newDataController.text,
+                    oldPasswordController.text);
               }
             },
           ),
@@ -116,82 +127,181 @@ class _EditUserDialogState extends State<EditUserDialog> {
 
   Widget buildTextField(User loggedInUser, String option, double width) {
     if (option == 'Name') {
-      textController.text = loggedInUser.name;
+      newDataController.text = '';
       return SizedBox(
         width: width / 1.7,
         child: TextField(
-          controller: textController,
+          controller: newDataController,
           decoration: kTextFieldDecoration.copyWith(
             hintText: loggedInUser.name,
           ),
         ),
       );
     } else if (option == 'Email') {
-      textController.text = loggedInUser.email;
+      newDataController.text = '';
       return SizedBox(
         width: width / 1.7,
         child: TextField(
-          controller: textController,
+          controller: newDataController,
           decoration: kTextFieldDecoration.copyWith(
             hintText: loggedInUser.email,
           ),
         ),
       );
-    } else {
-      textController.text = loggedInUser.phoneNumber;
+    } else if (option == 'Phone Number') {
+      newDataController.text = '';
       return SizedBox(
         width: width / 1.7,
         child: TextField(
           autofocus: false,
-          controller: textController,
+          controller: newDataController,
           decoration: kTextFieldDecoration.copyWith(
             hintText: loggedInUser.phoneNumber,
             hintStyle: kNumeralTextStyle.copyWith(fontSize: 20),
           ),
         ),
       );
+    } else {
+      oldPasswordController.text = '';
+      newDataController.text = '';
+      return Column(
+        children: <Widget>[
+          SizedBox(
+            width: width / 1.7,
+            child: TextField(
+              autofocus: false,
+              obscureText: obscureOld,
+              controller: oldPasswordController,
+              decoration: kTextFieldDecoration.copyWith(
+                hintText: 'Old Password',
+                hintStyle: kDefaultTextStyle.copyWith(fontSize: 16),
+                suffixIcon: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      obscureOld = !obscureOld;
+                    });
+                  },
+                  child: Icon(
+                    obscureOld ? Icons.visibility_off : Icons.visibility,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: 16),
+          SizedBox(
+            width: width / 1.7,
+            child: TextField(
+              obscureText: obscureNew,
+              autofocus: false,
+              controller: newDataController,
+              decoration: kTextFieldDecoration.copyWith(
+                hintText: 'New Password',
+                hintStyle: kDefaultTextStyle.copyWith(fontSize: 16),
+                suffixIcon: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      obscureNew = !obscureNew;
+                    });
+                  },
+                  child: Icon(
+                    obscureNew ? Icons.visibility_off : Icons.visibility,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
     }
   }
 
-  void _editUser(User loggedInUser, String col, String newData) {
+  void _editUser(
+      User loggedInUser, String col, String newData, String oldPassword) {
     // Start loader
     setState(() {
       isLoading = true;
     });
 
-    http.post(editUserUrl, body: {
-      "email": loggedInUser.email,
-      "col": col,
-      "new_data": newData,
-    }).then((res) {
-      if (res.body == "Edited Successfully") {
-        CustomSnackbar.showSnackbar(
-            text: 'Changes saved',
-            scaffoldKey: AccountView.scaffoldKey,
-            iconData: Icons.check_circle);
-      } else {
-        CustomSnackbar.showSnackbar(
-            text: 'Edit Failed',
-            scaffoldKey: AccountView.scaffoldKey,
-            iconData: Icons.error);
-      }
-      // Update user object
-      if (col == 'full_name') {
-        loggedInUser.setName(newData);
-      } else if (col == 'email') {
-        loggedInUser.setEmail(newData);
-      } else {
-        loggedInUser.setPhoneNumber(newData);
-      }
+    if (oldPassword == '') {
+      // OTHER DETAILS
+      http.post(editUserUrl, body: {
+        "email": loggedInUser.email,
+        "col": col,
+        "new_data": newData,
+      }).then((res) {
+        print(res.body);
+        if (res.body == "Edited Successfully") {
+          CustomSnackbar.showSnackbar(
+              text: 'Changes saved',
+              scaffoldKey: AccountView.scaffoldKey,
+              iconData: Icons.check_circle);
+        } else {
+          CustomSnackbar.showSnackbar(
+              text: 'Edit Failed',
+              scaffoldKey: AccountView.scaffoldKey,
+              iconData: Icons.error);
+        }
+        // Update user object
+        if (col == 'full_name') {
+          loggedInUser.setName(newData);
+        } else if (col == 'email') {
+          loggedInUser.setEmail(newData);
+        } else if (col == 'phone_number') {
+          loggedInUser.setPhoneNumber(newData);
+        }
 
-      // End loader
-      setState(() {
-        isLoading = true;
+        // End loader
+        setState(() {
+          isLoading = true;
+        });
+
+        Navigator.pop(context);
+      }).catchError((err) {
+        print(err);
       });
+    } else {
+      // PASSWORD
+      http.post(editUserUrl, body: {
+        "email": loggedInUser.email,
+        "col": col,
+        "old_password": oldPassword,
+        "new_data": newData,
+      }).then((res) {
+        if (res.body == "Edited Successfully") {
+          CustomSnackbar.showSnackbar(
+              text: 'Changes saved',
+              scaffoldKey: AccountView.scaffoldKey,
+              iconData: Icons.check_circle);
+        } else if (res.body == '-Edit Failed') {
+          CustomSnackbar.showSnackbar(
+              text: 'Incorrect Old Password',
+              scaffoldKey: AccountView.scaffoldKey,
+              iconData: Icons.error);
+        } else {
+          CustomSnackbar.showSnackbar(
+              text: 'Edit Failed',
+              scaffoldKey: AccountView.scaffoldKey,
+              iconData: Icons.error);
+        }
+        // Update user object
+        if (col == 'full_name') {
+          loggedInUser.setName(newData);
+        } else if (col == 'email') {
+          loggedInUser.setEmail(newData);
+        } else if (col == 'phone_number') {
+          loggedInUser.setPhoneNumber(newData);
+        }
 
-      Navigator.pop(context);
-    }).catchError((err) {
-      print(err);
-    });
+        // End loader
+        setState(() {
+          isLoading = true;
+        });
+
+        Navigator.pop(context);
+      }).catchError((err) {
+        print(err);
+      });
+    }
   }
 }

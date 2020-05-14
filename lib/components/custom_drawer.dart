@@ -1,13 +1,25 @@
+import 'dart:io';
+
 import 'package:drop_bites/views/main_menu_view.dart';
 import 'package:flutter/material.dart';
 import 'package:drop_bites/utils/constants.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:provider/provider.dart';
 import 'package:drop_bites/utils/user.dart';
 import 'package:drop_bites/views/cart_view.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:drop_bites/views/account_view.dart';
+import 'package:drop_bites/views/payment_view.dart';
 
-class CustomDrawer extends StatelessWidget {
+class CustomDrawer extends StatefulWidget {
+  static bool changedImage = false;
+  static File newImageFile;
+
+  @override
+  _CustomDrawerState createState() => _CustomDrawerState();
+}
+
+class _CustomDrawerState extends State<CustomDrawer> {
   @override
   Widget build(BuildContext context) {
     final loggedInUser = Provider.of<User>(context, listen: false);
@@ -16,7 +28,7 @@ class CustomDrawer extends StatelessWidget {
       child: ListView(
         children: <Widget>[
           SizedBox(
-            height: 220,
+            height: 230,
             child: DrawerHeader(
               padding:
                   EdgeInsets.only(top: 24, left: 16, right: 16, bottom: 24),
@@ -32,8 +44,11 @@ class CustomDrawer extends StatelessWidget {
                 children: <Widget>[
                   CircleAvatar(
                     backgroundColor: kGrey1,
-                    backgroundImage: NetworkImage(
-                        'http://hackanana.com/dropbites/user_images/${loggedInUser.email}.jpg'),
+                    backgroundImage: AccountView.changedImage
+                        ? FileImage(CustomDrawer.newImageFile)
+                        : CachedNetworkImageProvider(
+                            'http://hackanana.com/dropbites/user_images/${loggedInUser.email}.jpg',
+                          ),
                     radius: 40,
                   ),
                   SizedBox(height: 8),
@@ -114,10 +129,11 @@ class CustomDrawer extends StatelessWidget {
                     FontAwesomeIcons.creditCard,
                     color: Colors.green[400],
                   ),
-                  title: Text('Reload Credits', style: kDefaultTextStyle),
+                  title: Text('Payment', style: kDefaultTextStyle),
                   onTap: () {
-                    // TODO: Reload credits
-                    print('Reload');
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, PaymentView.id);
                   },
                 ),
                 ListTile(
