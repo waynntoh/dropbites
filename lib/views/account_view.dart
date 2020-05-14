@@ -13,11 +13,13 @@ import 'package:drop_bites/utils/constants.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_advanced_networkimage/provider.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class AccountView extends StatefulWidget {
   static const String id = 'account_view';
   static final scaffoldKey = GlobalKey<ScaffoldState>();
+  static bool changedImage = false;
+  static File newImageFile;
 
   @override
   _AccountViewState createState() => _AccountViewState();
@@ -65,9 +67,11 @@ class _AccountViewState extends State<AccountView> {
           decoration: BoxDecoration(
             image: DecorationImage(
               fit: BoxFit.cover,
-              image: AdvancedNetworkImage(
-                'http://hackanana.com/dropbites/user_images/${loggedInUser.email}.jpg',
-              ),
+              image: AccountView.changedImage
+                  ? FileImage(AccountView.newImageFile)
+                  : CachedNetworkImageProvider(
+                      'http://hackanana.com/dropbites/user_images/${loggedInUser.email}.jpg',
+                    ),
             ),
           ),
         ),
@@ -380,6 +384,12 @@ class _AccountViewState extends State<AccountView> {
             scaffoldKey: AccountView.scaffoldKey,
             text: 'Upload Successful',
             iconData: Icons.check_circle);
+        setState(() {
+          AccountView.newImageFile = imageFile;
+          CustomDrawer.newImageFile = imageFile;
+          AccountView.changedImage = true;
+          CustomDrawer.changedImage = true;
+        });
       } else {
         CustomSnackbar.showSnackbar(
             scaffoldKey: AccountView.scaffoldKey,

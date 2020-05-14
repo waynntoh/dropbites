@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:drop_bites/components/rating_stars.dart';
 import 'package:drop_bites/utils/item.dart';
 import 'package:drop_bites/views/main_menu_view.dart';
@@ -217,8 +218,9 @@ class _ItemViewState extends State<ItemView> {
                     ),
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: NetworkImage(
-                          'http://hackanana.com/dropbites/product_images/${widget.item.id}.jpg'),
+                      image: CachedNetworkImageProvider(
+                        'http://hackanana.com/dropbites/product_images/${widget.item.id}.jpg',
+                      ),
                     ),
                   ),
                 ),

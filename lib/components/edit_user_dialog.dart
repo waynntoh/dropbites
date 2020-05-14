@@ -268,7 +268,6 @@ class _EditUserDialogState extends State<EditUserDialog> {
         "old_password": oldPassword,
         "new_data": newData,
       }).then((res) {
-        print(res.body);
         if (res.body == "Edited Successfully") {
           CustomSnackbar.showSnackbar(
               text: 'Changes saved',

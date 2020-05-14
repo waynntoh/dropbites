@@ -1,7 +1,9 @@
+import 'dart:io';
+
 import 'package:drop_bites/views/main_menu_view.dart';
 import 'package:flutter/material.dart';
 import 'package:drop_bites/utils/constants.dart';
-import 'package:flutter_advanced_networkimage/provider.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:provider/provider.dart';
 import 'package:drop_bites/utils/user.dart';
 import 'package:drop_bites/views/cart_view.dart';
@@ -9,7 +11,15 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:drop_bites/views/account_view.dart';
 import 'package:drop_bites/views/payment_view.dart';
 
-class CustomDrawer extends StatelessWidget {
+class CustomDrawer extends StatefulWidget {
+  static bool changedImage = false;
+  static File newImageFile;
+
+  @override
+  _CustomDrawerState createState() => _CustomDrawerState();
+}
+
+class _CustomDrawerState extends State<CustomDrawer> {
   @override
   Widget build(BuildContext context) {
     final loggedInUser = Provider.of<User>(context, listen: false);
@@ -34,9 +44,11 @@ class CustomDrawer extends StatelessWidget {
                 children: <Widget>[
                   CircleAvatar(
                     backgroundColor: kGrey1,
-                    backgroundImage: AdvancedNetworkImage(
-                      'http://hackanana.com/dropbites/user_images/${loggedInUser.email}.jpg',
-                    ),
+                    backgroundImage: AccountView.changedImage
+                        ? FileImage(CustomDrawer.newImageFile)
+                        : CachedNetworkImageProvider(
+                            'http://hackanana.com/dropbites/user_images/${loggedInUser.email}.jpg',
+                          ),
                     radius: 40,
                   ),
                   SizedBox(height: 8),
