@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:drop_bites/views/main_menu_view.dart';
 import 'package:flutter/material.dart';
 import 'package:drop_bites/utils/constants.dart';
@@ -11,15 +10,15 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:drop_bites/views/account_view.dart';
 import 'package:drop_bites/views/payment_view.dart';
 
-class CustomDrawer extends StatefulWidget {
+class UserDrawer extends StatefulWidget {
   static bool changedImage = false;
   static File newImageFile;
 
   @override
-  _CustomDrawerState createState() => _CustomDrawerState();
+  _UserDrawerState createState() => _UserDrawerState();
 }
 
-class _CustomDrawerState extends State<CustomDrawer> {
+class _UserDrawerState extends State<UserDrawer> {
   @override
   Widget build(BuildContext context) {
     final loggedInUser = Provider.of<User>(context, listen: false);
@@ -33,11 +32,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
               padding:
                   EdgeInsets.only(top: 24, left: 16, right: 16, bottom: 24),
               decoration: BoxDecoration(
-                gradient: LinearGradient(colors: [
-                  Colors.white,
-                  kGrey0,
-                  Colors.white,
-                ]),
+                gradient: LinearGradient(
+                  colors: [kGrey0, Colors.white, kGrey0],
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                ),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -45,7 +44,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   CircleAvatar(
                     backgroundColor: kGrey1,
                     backgroundImage: AccountView.changedImage
-                        ? FileImage(CustomDrawer.newImageFile)
+                        ? FileImage(UserDrawer.newImageFile)
                         : CachedNetworkImageProvider(
                             'http://hackanana.com/dropbites/user_images/${loggedInUser.email}.jpg',
                           ),

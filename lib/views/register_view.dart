@@ -191,7 +191,10 @@ class _RegisterViewState extends State<RegisterView> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text('Already have an account?'),
+                        Text(
+                          'Already have an account?',
+                          style: kDefaultTextStyle,
+                        ),
                         SizedBox(width: 8),
                         GestureDetector(
                           child: Text(

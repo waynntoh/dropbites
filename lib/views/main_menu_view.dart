@@ -1,6 +1,8 @@
+import 'package:drop_bites/components/guest_drawer.dart';
 import 'package:drop_bites/utils/constants.dart';
+import 'package:drop_bites/views/login_view.dart';
 import 'package:flutter/material.dart';
-import 'package:drop_bites/components/custom_drawer.dart';
+import 'package:drop_bites/components/user_drawer.dart';
 import 'package:drop_bites/components/overhead_selector.dart';
 import 'package:drop_bites/components/item_card.dart';
 import 'package:http/http.dart' as http;
@@ -99,7 +101,9 @@ class _MainMenuViewState extends State<MainMenuView> {
       onWillPop: () async => false,
       child: Scaffold(
         key: MainMenuView.scaffoldKey,
-        drawer: CustomDrawer(),
+        drawer: LoginView.isGuest
+            ? GuestDrawer(showSnackbar: showGuestSnackbar)
+            : UserDrawer(),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
@@ -109,24 +113,30 @@ class _MainMenuViewState extends State<MainMenuView> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   IconButton(
-                    icon: Icon(
-                      Icons.menu,
-                      color: kOrange3,
-                    ),
-                    onPressed: () =>
-                        MainMenuView.scaffoldKey.currentState.openDrawer(),
-                  ),
+                      icon: Icon(
+                        Icons.menu,
+                        color: kOrange3,
+                      ),
+                      onPressed: () {
+                        MainMenuView.scaffoldKey.currentState.openDrawer();
+                        MainMenuView.scaffoldKey.currentState
+                            .hideCurrentSnackBar();
+                      }),
                   CircleButton(
                     color: kOrange3,
                     child: Icon(Icons.shopping_cart),
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              CartView(email: loggedInUser.email),
-                        ),
-                      );
+                      if (LoginView.isGuest) {
+                        showGuestSnackbar();
+                      } else {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                CartView(email: loggedInUser.email),
+                          ),
+                        );
+                      }
                     },
                   ),
                 ],
@@ -209,6 +219,58 @@ class _MainMenuViewState extends State<MainMenuView> {
                         ),
                       )
                     : null),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void showGuestSnackbar() {
+    MainMenuView.scaffoldKey.currentState.showSnackBar(
+      SnackBar(
+        duration: Duration(seconds: 10),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Icon(
+                  Icons.error,
+                  color: kOrange3,
+                ),
+                SizedBox(width: 8),
+                Text(
+                  'Not Logged In',
+                  style: TextStyle(color: kOrange3),
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                FlatButton(
+                  color: kOrange0,
+                  child: Text(
+                    'No',
+                    style: kDefaultTextStyle.copyWith(color: Colors.black),
+                  ),
+                  onPressed: () {
+                    MainMenuView.scaffoldKey.currentState.hideCurrentSnackBar();
+                  },
+                ),
+                SizedBox(width: 16),
+                FlatButton(
+                  color: kOrange3,
+                  child: Text(
+                    'Login',
+                    style: kDefaultTextStyle.copyWith(color: Colors.black),
+                  ),
+                  onPressed: () {
+                    MainMenuView.scaffoldKey.currentState.hideCurrentSnackBar();
+                    Navigator.pop(context);
+                  },
+                )
+              ],
+            )
           ],
         ),
       ),

@@ -14,6 +14,7 @@ import 'package:http/http.dart' as http;
 class LoginView extends StatefulWidget {
   static final scaffoldKey = GlobalKey<ScaffoldState>();
   static const String id = 'login_view';
+  static bool isGuest = false;
   final String savedEmail;
   final String savedPassword;
 
@@ -80,7 +81,9 @@ class _LoginViewState extends State<LoginView>
         loggedInUser.setPhoneNumber(echoes[3]);
         loggedInUser.setCredit(double.parse(echoes[4]));
         loggedInUser.setRegDate(DateTime.parse(echoes[5]));
-        echoes[6] == '0' ? loggedInUser.setVerified(false) : loggedInUser.setVerified(true);
+        echoes[6] == '0'
+            ? loggedInUser.setVerified(false)
+            : loggedInUser.setVerified(true);
       } else {
         CustomSnackbar.showSnackbar(
             text: 'Login Failed',
@@ -249,16 +252,29 @@ class _LoginViewState extends State<LoginView>
                                       _saveUser();
                                     }
                                     _login();
+                                    setState(() {
+                                      LoginView.isGuest = false;
+                                    });
                                   },
                                 ),
                               ],
                             ),
                             SizedBox(height: 16),
+                            RoundedButton(
+                                width: 360,
+                                text: 'Continue as Guest',
+                                color: kGrey0,
+                                onPressed: () {
+                                  Navigator.pushNamed(context, MainMenuView.id);
+                                  LoginView.isGuest = true;
+                                }),
+                            SizedBox(height: 16),
                             GestureDetector(
                               child: Text(
                                 'Forgot Password?',
                                 textAlign: TextAlign.center,
-                                style: kDefaultTextStyle.copyWith(color: kOrange6),
+                                style:
+                                    kDefaultTextStyle.copyWith(color: kOrange6),
                               ),
                               onTap: () {
                                 showDialog(

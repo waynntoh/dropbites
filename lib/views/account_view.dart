@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:ui';
-import 'package:drop_bites/components/custom_drawer.dart';
+import 'package:drop_bites/components/user_drawer.dart';
 import 'package:drop_bites/components/custom_snackbar.dart';
 import 'package:drop_bites/components/edit_user_dialog.dart';
 import 'package:drop_bites/components/stat_block.dart';
@@ -46,7 +46,7 @@ class _AccountViewState extends State<AccountView> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         key: AccountView.scaffoldKey,
-        drawer: CustomDrawer(),
+        drawer: UserDrawer(),
         backgroundColor: Color(0xFFF4F4F4),
         body: Stack(
           children: <Widget>[
@@ -386,9 +386,9 @@ class _AccountViewState extends State<AccountView> {
             iconData: Icons.check_circle);
         setState(() {
           AccountView.newImageFile = imageFile;
-          CustomDrawer.newImageFile = imageFile;
+          UserDrawer.newImageFile = imageFile;
           AccountView.changedImage = true;
-          CustomDrawer.changedImage = true;
+          UserDrawer.changedImage = true;
         });
       } else {
         CustomSnackbar.showSnackbar(

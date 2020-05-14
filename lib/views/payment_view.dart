@@ -1,4 +1,4 @@
-import 'package:drop_bites/components/custom_drawer.dart';
+import 'package:drop_bites/components/user_drawer.dart';
 import 'package:drop_bites/utils/constants.dart';
 import 'package:drop_bites/utils/user.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +30,7 @@ class _PaymentViewState extends State<PaymentView> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         key: PaymentView.scaffoldKey,
-        drawer: CustomDrawer(),
+        drawer: UserDrawer(),
         backgroundColor: Colors.white,
         body: Stack(
           children: <Widget>[
