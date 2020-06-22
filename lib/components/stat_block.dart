@@ -1,7 +1,5 @@
 import 'package:drop_bites/utils/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/fa_icon.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class StatBlock extends StatelessWidget {
   final String title;

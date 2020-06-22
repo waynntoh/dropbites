@@ -179,7 +179,13 @@ class _UserDrawerState extends State<UserDrawer> {
                   title: Text('Reload Credits', style: kDefaultTextStyle),
                   onTap: () {
                     Navigator.pop(context);
-                    Navigator.pushNamed(context, ReloadView.id);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            ReloadView(email: loggedInUser.email),
+                      ),
+                    );
                   },
                 ),
                 ListTile(

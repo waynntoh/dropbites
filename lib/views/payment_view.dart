@@ -1,19 +1,25 @@
 import 'dart:async';
+import 'package:drop_bites/utils/constants.dart';
 import 'package:drop_bites/utils/user.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class PaymentView extends StatelessWidget {
+class PaymentView extends StatefulWidget {
   final int reloadAmount;
   final Function onFinishReload;
 
   PaymentView({@required this.reloadAmount, @required this.onFinishReload});
 
   @override
+  _PaymentViewState createState() => _PaymentViewState();
+}
+
+class _PaymentViewState extends State<PaymentView> {
+  bool loading = true;
+
+  @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
     Completer<WebViewController> _controller = Completer<WebViewController>();
     final loggedInUser = Provider.of<User>(context, listen: false);
 
@@ -23,28 +29,41 @@ class PaymentView extends StatelessWidget {
         leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
-              onFinishReload(context);
+              widget.onFinishReload(context);
               Navigator.pop(context);
             }),
       ),
-      body: Container(
-        height: height,
-        width: width,
-        child: WebView(
-          initialUrl: 'http://hackanana.com/dropbites/php/reload_credits.php' +
-              '?email=' +
-              loggedInUser.email +
-              '&phone_number=' +
-              loggedInUser.phoneNumber +
-              '&name=' +
-              loggedInUser.name +
-              '&amount=' +
-              reloadAmount.toString(),
-          javascriptMode: JavascriptMode.unrestricted,
-          onWebViewCreated: (WebViewController webViewController) {
-            _controller.complete(webViewController);
-          },
-        ),
+      body: Stack(
+        children: [
+          WebView(
+            initialUrl:
+                'http://hackanana.com/dropbites/php/reload_credits.php' +
+                    '?email=' +
+                    loggedInUser.email +
+                    '&phone_number=' +
+                    loggedInUser.phoneNumber +
+                    '&name=' +
+                    loggedInUser.name +
+                    '&amount=' +
+                    widget.reloadAmount.toString(),
+            javascriptMode: JavascriptMode.unrestricted,
+            onWebViewCreated: (WebViewController webViewController) {
+              _controller.complete(webViewController);
+            },
+            onPageFinished: (value) {
+              print(value);
+              print(loading);
+              setState(() {
+                loading = false;
+              });
+            },
+          ),
+          loading
+              ? Center(
+                  child: kSpinKitLoader,
+                )
+              : Container(),
+        ],
       ),
     );
   }
