@@ -4,6 +4,15 @@ include_once ("dbconnect.php");
 
 $email = $_GET['email'];
 
-echo "$email is verified successfully.";
+$sql = "UPDATE USERS SET verified = True WHERE email = '$email'";
+
+if ($conn->query($sql) === true)
+{
+    echo "$email is verified successfully.";
+}
+else
+{
+    echo "Verification Failed";
+}
 
 ?>
