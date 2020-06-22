@@ -58,6 +58,16 @@ Widget kSpinKitLoader = SpinKitWave(
   size: 100,
 );
 
+Widget kLargeImageLoader = SpinKitSquareCircle(
+  color: kOrange0,
+  size: 100,
+);
+
+Widget kSmallImageLoader = SpinKitSquareCircle(
+  color: kOrange1,
+  size: 50,
+);
+
 // TEXTSTYLES
 const kButtonTextStyle = TextStyle(
   fontFamily: 'Slabo',

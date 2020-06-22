@@ -1,5 +1,8 @@
 import 'dart:io';
+import 'package:drop_bites/components/custom_snackbar.dart';
 import 'package:drop_bites/views/main_menu_view.dart';
+import 'package:drop_bites/views/orders_view.dart';
+import 'package:drop_bites/views/reload_view.dart';
 import 'package:flutter/material.dart';
 import 'package:drop_bites/utils/constants.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -8,7 +11,6 @@ import 'package:drop_bites/utils/user.dart';
 import 'package:drop_bites/views/cart_view.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:drop_bites/views/account_view.dart';
-import 'package:drop_bites/views/payment_view.dart';
 
 class UserDrawer extends StatefulWidget {
   static bool changedImage = false;
@@ -19,6 +21,15 @@ class UserDrawer extends StatefulWidget {
 }
 
 class _UserDrawerState extends State<UserDrawer> {
+  void onPlacedOrder(String email) {
+    CustomSnackbar.showSnackbar(
+      iconData: Icons.local_shipping,
+      text: 'New order placed!',
+      scaffoldKey: MainMenuView.scaffoldKey,
+      duration: Duration(seconds: 5),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final loggedInUser = Provider.of<User>(context, listen: false);
@@ -41,14 +52,30 @@ class _UserDrawerState extends State<UserDrawer> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  CircleAvatar(
-                    backgroundColor: kGrey1,
-                    backgroundImage: AccountView.changedImage
-                        ? FileImage(UserDrawer.newImageFile)
-                        : CachedNetworkImageProvider(
+                  SizedBox(
+                    height: 90,
+                    width: 90,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(90),
+                      child: CachedNetworkImage(
+                        imageUrl:
                             'http://hackanana.com/dropbites/user_images/${loggedInUser.email}.jpg',
+                        imageBuilder: (context, imageProvider) => Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AccountView.changedImage
+                                  ? FileImage(UserDrawer.newImageFile)
+                                  : CachedNetworkImageProvider(
+                                      'http://hackanana.com/dropbites/user_images/${loggedInUser.email}.jpg',
+                                    ),
+                              fit: BoxFit.cover,
+                            ),
                           ),
-                    radius: 40,
+                        ),
+                        placeholder: (context, url) => kSmallImageLoader,
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                      ),
+                    ),
                   ),
                   SizedBox(height: 8),
                   Column(
@@ -94,7 +121,7 @@ class _UserDrawerState extends State<UserDrawer> {
                     FontAwesomeIcons.hamburger,
                     color: kOrange3,
                   ),
-                  title: Text('Food Menu', style: kDefaultTextStyle),
+                  title: Text('Menu', style: kDefaultTextStyle),
                   onTap: () {
                     if (MainMenuView.scaffoldKey.currentContext ==
                         Scaffold.of(context).context) {
@@ -114,13 +141,34 @@ class _UserDrawerState extends State<UserDrawer> {
                   ),
                   title: Text('My Cart', style: kDefaultTextStyle),
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            CartView(email: loggedInUser.email),
-                      ),
-                    );
+                    if (MainMenuView.scaffoldKey.currentContext !=
+                        Scaffold.of(context).context) {
+                      // Pop drawer and current view, push to main menu
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                      Navigator.pushNamed(context, MainMenuView.id);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CartView(
+                            email: loggedInUser.email,
+                            credits: loggedInUser.credits,
+                            onPlacedOrder: onPlacedOrder,
+                          ),
+                        ),
+                      );
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CartView(
+                            email: loggedInUser.email,
+                            credits: loggedInUser.credits,
+                            onPlacedOrder: onPlacedOrder,
+                          ),
+                        ),
+                      );
+                    }
                   },
                 ),
                 ListTile(
@@ -128,11 +176,35 @@ class _UserDrawerState extends State<UserDrawer> {
                     FontAwesomeIcons.creditCard,
                     color: Colors.green[400],
                   ),
-                  title: Text('Payment', style: kDefaultTextStyle),
+                  title: Text('Reload Credits', style: kDefaultTextStyle),
                   onTap: () {
                     Navigator.pop(context);
-                    Navigator.pop(context);
-                    Navigator.pushNamed(context, PaymentView.id);
+                    Navigator.pushNamed(context, ReloadView.id);
+                  },
+                ),
+                ListTile(
+                  leading: Icon(
+                    Icons.receipt,
+                    size: 28,
+                    color: Colors.teal[300],
+                  ),
+                  title: Text('My Orders', style: kDefaultTextStyle),
+                  onTap: () {
+                    if (OrdersView.scaffoldKey.currentContext ==
+                        Scaffold.of(context).context) {
+                      Navigator.pop(context);
+                    } else {
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => OrdersView(
+                            email: loggedInUser.email,
+                          ),
+                        ),
+                      );
+                    }
                   },
                 ),
                 ListTile(
@@ -148,7 +220,14 @@ class _UserDrawerState extends State<UserDrawer> {
                     } else {
                       Navigator.pop(context);
                       Navigator.pop(context);
-                      Navigator.pushNamed(context, AccountView.id);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AccountView(
+                            email: loggedInUser.email,
+                          ),
+                        ),
+                      );
                     }
                   },
                 ),

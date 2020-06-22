@@ -56,7 +56,7 @@ class _GuestDrawerState extends State<GuestDrawer> {
                     FontAwesomeIcons.hamburger,
                     color: kOrange3,
                   ),
-                  title: Text('Food Menu', style: kDefaultTextStyle),
+                  title: Text('Menu', style: kDefaultTextStyle),
                   onTap: () {
                     if (MainMenuView.scaffoldKey.currentContext ==
                         Scaffold.of(context).context) {
@@ -81,7 +81,19 @@ class _GuestDrawerState extends State<GuestDrawer> {
                     FontAwesomeIcons.creditCard,
                     color: kGrey1,
                   ),
-                  title: Text('Payment', style: kDefaultTextStyle),
+                  title: Text('Reload Credits', style: kDefaultTextStyle),
+                  onTap: () {
+                    Navigator.pop(context);
+                    widget.showSnackbar();
+                  },
+                ),
+                ListTile(
+                  leading: Icon(
+                    Icons.receipt,
+                    size: 28,
+                    color: kGrey1,
+                  ),
+                  title: Text('My Orders', style: kDefaultTextStyle),
                   onTap: () {
                     Navigator.pop(context);
                     widget.showSnackbar();

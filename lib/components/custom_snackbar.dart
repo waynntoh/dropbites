@@ -19,7 +19,7 @@ class CustomSnackbar {
                   iconData,
                   color: kOrange3,
                 ),
-                SizedBox(width: 8),
+                SizedBox(width: 12),
                 Text(
                   text,
                   style: TextStyle(color: kOrange3),

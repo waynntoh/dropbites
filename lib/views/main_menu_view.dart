@@ -1,6 +1,8 @@
+import 'package:drop_bites/components/custom_snackbar.dart';
 import 'package:drop_bites/components/guest_drawer.dart';
 import 'package:drop_bites/utils/constants.dart';
 import 'package:drop_bites/views/login_view.dart';
+import 'package:drop_bites/views/orders_view.dart';
 import 'package:flutter/material.dart';
 import 'package:drop_bites/components/user_drawer.dart';
 import 'package:drop_bites/components/overhead_selector.dart';
@@ -28,7 +30,16 @@ class _MainMenuViewState extends State<MainMenuView> {
   String url = 'http://hackanana.com/dropbites/php/get_products.php';
   ScrollController scrollController = ScrollController();
 
-  void _loadItems() async {
+  void onPlacedOrder(String email) {
+    CustomSnackbar.showSnackbar(
+      iconData: Icons.local_shipping,
+      text: 'New order placed!',
+      scaffoldKey: MainMenuView.scaffoldKey,
+      duration: Duration(seconds: 5),
+    );
+  }
+
+  void _getItems() async {
     setState(() {
       loading = true;
       loadingOpacity = .2;
@@ -84,13 +95,13 @@ class _MainMenuViewState extends State<MainMenuView> {
         print(e);
       });
     } else {
-      _loadItems();
+      _getItems();
     }
   }
 
   @override
   void initState() {
-    _loadItems();
+    _getItems();
     super.initState();
   }
 
@@ -129,11 +140,16 @@ class _MainMenuViewState extends State<MainMenuView> {
                       if (LoginView.isGuest) {
                         showGuestSnackbar();
                       } else {
+                        MainMenuView.scaffoldKey.currentState
+                            .hideCurrentSnackBar();
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                CartView(email: loggedInUser.email),
+                            builder: (context) => CartView(
+                              email: loggedInUser.email,
+                              credits: loggedInUser.credits,
+                              onPlacedOrder: onPlacedOrder,
+                            ),
                           ),
                         );
                       }

@@ -331,9 +331,11 @@ class _ItemViewState extends State<ItemView> {
       (res) {
         if (res.body == "Added Successfully") {
           CustomSnackbar.showSnackbar(
-              text: 'Added x$itemCount ${widget.item.name}',
-              scaffoldKey: MainMenuView.scaffoldKey,
-              iconData: Icons.shopping_cart);
+            text: 'Added x$itemCount ${widget.item.name}',
+            scaffoldKey: MainMenuView.scaffoldKey,
+            iconData: Icons.shopping_cart,
+            duration: Duration(seconds: 1, milliseconds: 500),
+          );
           Navigator.pop(context);
         } else {
           CustomSnackbar.showSnackbar(

@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 class HistoryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+
     return SizedBox(
-      width: 230,
-      height: 140,
+      width: width,
+      height: 110,
       child: Center(
         child: Container(
           margin: EdgeInsets.only(right: 16),
@@ -62,24 +64,6 @@ class HistoryItem extends StatelessWidget {
                   ),
                   Text(
                     'RM29.90',
-                    style: kNumeralTextStyle.copyWith(
-                      color: kGrey4,
-                      fontSize: 17.5,
-                      fontWeight: FontWeight.w900,
-                    ),
-                  )
-                ],
-              ),
-              SizedBox(height: 4),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    'Items:',
-                    style: kDefaultTextStyle.copyWith(color: kGrey4),
-                  ),
-                  Text(
-                    '4 items',
                     style: kNumeralTextStyle.copyWith(
                       color: kGrey4,
                       fontSize: 17.5,
