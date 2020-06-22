@@ -1,70 +1,49 @@
-import 'package:drop_bites/components/custom_drawer.dart';
-import 'package:drop_bites/utils/constants.dart';
+import 'dart:async';
 import 'package:drop_bites/utils/user.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/fa_icon.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
-class PaymentView extends StatefulWidget {
-  static const String id = 'payment_view';
-  static final scaffoldKey = GlobalKey<ScaffoldState>();
+class PaymentView extends StatelessWidget {
+  final int reloadAmount;
+  final Function onFinishReload;
 
-  @override
-  _PaymentViewState createState() => _PaymentViewState();
-}
-
-class _PaymentViewState extends State<PaymentView> {
-  User loggedInUser;
-  double height;
-  double width;
+  PaymentView({@required this.reloadAmount, @required this.onFinishReload});
 
   @override
   Widget build(BuildContext context) {
-    loggedInUser = Provider.of<User>(context, listen: false);
-    height = MediaQuery.of(context).size.height;
-    width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+    Completer<WebViewController> _controller = Completer<WebViewController>();
+    final loggedInUser = Provider.of<User>(context, listen: false);
 
-    return WillPopScope(
-      onWillPop: () async => true,
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        key: PaymentView.scaffoldKey,
-        drawer: CustomDrawer(),
-        backgroundColor: Colors.white,
-        body: Stack(
-          children: <Widget>[
-            Positioned(
-              top: 36,
-              left: 16,
-              child: GestureDetector(
-                onTap: () {
-                  PaymentView.scaffoldKey.currentState.openDrawer();
-                },
-                child: CircleAvatar(
-                  radius: 24,
-                  backgroundColor: kGrey3,
-                  child: CircleAvatar(
-                    radius: 22,
-                    backgroundColor: Colors.white,
-                    child: Icon(
-                      Icons.menu,
-                      color: kOrange4,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            // TODO: Reload
-            print('Reload');
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Back to DropBites'),
+        leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              onFinishReload(context);
+              Navigator.pop(context);
+            }),
+      ),
+      body: Container(
+        height: height,
+        width: width,
+        child: WebView(
+          initialUrl: 'http://hackanana.com/dropbites/php/reload_credits.php' +
+              '?email=' +
+              loggedInUser.email +
+              '&phone_number=' +
+              loggedInUser.phoneNumber +
+              '&name=' +
+              loggedInUser.name +
+              '&amount=' +
+              reloadAmount.toString(),
+          javascriptMode: JavascriptMode.unrestricted,
+          onWebViewCreated: (WebViewController webViewController) {
+            _controller.complete(webViewController);
           },
-          backgroundColor: Colors.green[400],
-          icon: FaIcon(FontAwesomeIcons.redoAlt),
-          label: Text('Reload'),
         ),
       ),
     );

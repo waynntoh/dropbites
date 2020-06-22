@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:ui';
-import 'package:drop_bites/components/custom_drawer.dart';
+import 'package:drop_bites/components/user_drawer.dart';
 import 'package:drop_bites/components/custom_snackbar.dart';
 import 'package:drop_bites/components/edit_user_dialog.dart';
 import 'package:drop_bites/components/stat_block.dart';
@@ -21,6 +21,9 @@ class AccountView extends StatefulWidget {
   static bool changedImage = false;
   static File newImageFile;
 
+  final String email;
+  AccountView({this.email});
+
   @override
   _AccountViewState createState() => _AccountViewState();
 }
@@ -33,7 +36,18 @@ class _AccountViewState extends State<AccountView> {
   bool editable = false;
   String uploadImageUrl =
       'http://hackanana.com/dropbites/php/upload_user_image.php';
+  String getStatsUrl = 'http://hackanana.com/dropbites/php/get_statistics.php';
   TextEditingController nameController = TextEditingController();
+
+  int orders;
+  int items;
+  double creditsSpent;
+
+  @override
+  void initState() {
+    _getStats();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +60,7 @@ class _AccountViewState extends State<AccountView> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         key: AccountView.scaffoldKey,
-        drawer: CustomDrawer(),
+        drawer: UserDrawer(),
         backgroundColor: Color(0xFFF4F4F4),
         body: Stack(
           children: <Widget>[
@@ -64,15 +78,23 @@ class _AccountViewState extends State<AccountView> {
         Container(
           width: width,
           height: height / 1.65,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              fit: BoxFit.cover,
-              image: AccountView.changedImage
-                  ? FileImage(AccountView.newImageFile)
-                  : CachedNetworkImageProvider(
-                      'http://hackanana.com/dropbites/user_images/${loggedInUser.email}.jpg',
-                    ),
+          child: CachedNetworkImage(
+            imageUrl:
+                'http://hackanana.com/dropbites/user_images/${loggedInUser.email}.jpg',
+            imageBuilder: (context, imageProvider) => Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AccountView.changedImage
+                      ? FileImage(UserDrawer.newImageFile)
+                      : CachedNetworkImageProvider(
+                          'http://hackanana.com/dropbites/user_images/${loggedInUser.email}.jpg',
+                        ),
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
+            placeholder: (context, url) => kSmallImageLoader,
+            errorWidget: (context, url, error) => Icon(Icons.error),
           ),
         ),
         Container(
@@ -250,61 +272,65 @@ class _AccountViewState extends State<AccountView> {
                 )
               ],
             ),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    StatBlock(
-                      title: 'Orders',
-                      iconData: FontAwesomeIcons.star,
-                      data: '10',
-                      color: kOrange3,
-                    ),
-                    Container(
-                      height: 50,
-                      width: .4,
-                      color: kOrange4,
-                    ),
-                    StatBlock(
-                      title: 'Items',
-                      iconData: FontAwesomeIcons.shoppingBasket,
-                      data: '29',
-                      color: Colors.blueAccent,
-                    ),
-                    Container(
-                      height: 50,
-                      width: .4,
-                      color: kOrange4,
-                    ),
-                    StatBlock(
-                      title: 'Credits Spent',
-                      iconData: FontAwesomeIcons.creditCard,
-                      data: '\$156.80',
-                      color: Colors.green[400],
-                    ),
-                  ],
-                ),
-                SizedBox(height: 36),
-                RichText(
-                  text: TextSpan(
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: 'Since  ',
-                        style: kDefaultTextStyle.copyWith(color: kGrey4),
+            child: orders != null
+                ? Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          StatBlock(
+                            title: 'Orders',
+                            iconData: Icons.shopping_basket,
+                            data: '$orders',
+                            color: kOrange3,
+                          ),
+                          Container(
+                            height: 50,
+                            width: .4,
+                            color: kOrange4,
+                          ),
+                          StatBlock(
+                            title: 'Items',
+                            iconData: Icons.fastfood,
+                            data: '$items',
+                            color: Colors.blueAccent,
+                          ),
+                          Container(
+                            height: 50,
+                            width: .4,
+                            color: kOrange4,
+                          ),
+                          StatBlock(
+                            title: 'Credits Spent',
+                            iconData: Icons.credit_card,
+                            data: '\$${creditsSpent.toStringAsFixed(2)}',
+                            color: Colors.green[400],
+                          ),
+                        ],
                       ),
-                      TextSpan(
-                        text: '${loggedInUser.regDate}',
-                        style: kDefaultTextStyle.copyWith(
-                          color: kGrey5,
-                          fontSize: 17,
+                      SizedBox(height: 36),
+                      RichText(
+                        text: TextSpan(
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: 'Since  ',
+                              style: kDefaultTextStyle.copyWith(color: kGrey4),
+                            ),
+                            TextSpan(
+                              text: '${loggedInUser.regDate}',
+                              style: kDefaultTextStyle.copyWith(
+                                color: kGrey5,
+                                fontSize: 17,
+                              ),
+                            )
+                          ],
                         ),
-                      )
+                      ),
                     ],
+                  )
+                : Center(
+                    child: Text('Loading'),
                   ),
-                ),
-              ],
-            ),
           ),
         ),
       ],
@@ -386,9 +412,9 @@ class _AccountViewState extends State<AccountView> {
             iconData: Icons.check_circle);
         setState(() {
           AccountView.newImageFile = imageFile;
-          CustomDrawer.newImageFile = imageFile;
+          UserDrawer.newImageFile = imageFile;
           AccountView.changedImage = true;
-          CustomDrawer.changedImage = true;
+          UserDrawer.changedImage = true;
         });
       } else {
         CustomSnackbar.showSnackbar(
@@ -396,6 +422,28 @@ class _AccountViewState extends State<AccountView> {
             text: 'Upload Failed',
             iconData: Icons.error);
       }
+    }).catchError((err) {
+      print(err);
+    });
+  }
+
+  void _getStats() {
+    http.post(getStatsUrl, body: {
+      "email": widget.email,
+    }).then((res) {
+      List<String> responses = res.body.split(', ');
+
+      setState(() {
+        if (responses[0] == 'Success') {
+          orders = int.parse(responses[1]);
+          items = int.parse(responses[2]);
+          creditsSpent = double.parse(responses[3]);
+        } else {
+          orders = 0;
+          items = 0;
+          creditsSpent = 0.00;
+        }
+      });
     }).catchError((err) {
       print(err);
     });

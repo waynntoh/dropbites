@@ -23,9 +23,9 @@ class StatBlock extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          FaIcon(
+          Icon(
             iconData,
-            size: 36,
+            size: 45,
             color: color,
           ),
           SizedBox(height: 12),

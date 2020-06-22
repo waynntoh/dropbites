@@ -11,7 +11,10 @@ import 'package:drop_bites/utils/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:drop_bites/components/custom_snackbar.dart';
 
+import 'login_view.dart';
+
 class ItemView extends StatefulWidget {
+  static final scaffoldKey = GlobalKey<ScaffoldState>();
   final Item item;
 
   ItemView({@required this.item});
@@ -33,6 +36,7 @@ class _ItemViewState extends State<ItemView> {
     double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      key: ItemView.scaffoldKey,
       body: AbsorbPointer(
         absorbing: loading,
         child: Opacity(
@@ -194,7 +198,73 @@ class _ItemViewState extends State<ItemView> {
                                       ],
                                     )),
                                 onTap: () {
-                                  _addToCart(loggedInUser.email);
+                                  if (LoginView.isGuest) {
+                                    ItemView.scaffoldKey.currentState
+                                        .showSnackBar(
+                                      SnackBar(
+                                        duration: Duration(seconds: 10),
+                                        content: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: <Widget>[
+                                            Row(
+                                              children: <Widget>[
+                                                Icon(
+                                                  Icons.error,
+                                                  color: kOrange3,
+                                                ),
+                                                SizedBox(width: 8),
+                                                Text(
+                                                  'Not Logged In',
+                                                  style: TextStyle(
+                                                      color: kOrange3),
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: <Widget>[
+                                                FlatButton(
+                                                  color: kOrange0,
+                                                  child: Text(
+                                                    'No',
+                                                    style: kDefaultTextStyle
+                                                        .copyWith(
+                                                            color:
+                                                                Colors.black),
+                                                  ),
+                                                  onPressed: () {
+                                                    ItemView.scaffoldKey
+                                                        .currentState
+                                                        .hideCurrentSnackBar();
+                                                  },
+                                                ),
+                                                SizedBox(width: 16),
+                                                FlatButton(
+                                                  color: kOrange3,
+                                                  child: Text(
+                                                    'Login',
+                                                    style: kDefaultTextStyle
+                                                        .copyWith(
+                                                            color:
+                                                                Colors.black),
+                                                  ),
+                                                  onPressed: () {
+                                                    ItemView.scaffoldKey
+                                                        .currentState
+                                                        .hideCurrentSnackBar();
+                                                    Navigator.pop(context);
+                                                    Navigator.pop(context);
+                                                  },
+                                                )
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  } else {
+                                    _addToCart(loggedInUser.email);
+                                  }
                                 },
                               )
                             ],
@@ -261,9 +331,11 @@ class _ItemViewState extends State<ItemView> {
       (res) {
         if (res.body == "Added Successfully") {
           CustomSnackbar.showSnackbar(
-              text: 'Added x$itemCount ${widget.item.name}',
-              scaffoldKey: MainMenuView.scaffoldKey,
-              iconData: Icons.shopping_cart);
+            text: 'Added x$itemCount ${widget.item.name}',
+            scaffoldKey: MainMenuView.scaffoldKey,
+            iconData: Icons.shopping_cart,
+            duration: Duration(seconds: 1, milliseconds: 500),
+          );
           Navigator.pop(context);
         } else {
           CustomSnackbar.showSnackbar(

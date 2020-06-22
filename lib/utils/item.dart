@@ -36,4 +36,13 @@ class Item {
   get rating => _rating;
   get type => _type;
   get description => _description;
+
+  Map toJson() => {
+        'name': _name,
+        'id': _id,
+        'price': _price,
+        'rating': _rating,
+        'type': _type,
+        'description': _description
+      };
 }

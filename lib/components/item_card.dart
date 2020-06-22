@@ -37,11 +37,22 @@ class ItemCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   boxShadow: [kItemCardShadow],
                   borderRadius: BorderRadius.circular(12),
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: CachedNetworkImageProvider(
-                      'http://hackanana.com/dropbites/product_images/${item.id}.jpg',
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                  child: CachedNetworkImage(
+                    imageUrl:
+                        'http://hackanana.com/dropbites/product_images/${item.id}.jpg',
+                    imageBuilder: (context, imageProvider) => Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: imageProvider,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
+                    placeholder: (context, url) => kLargeImageLoader,
+                    errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
                 ),
               ),

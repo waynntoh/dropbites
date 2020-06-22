@@ -36,6 +36,6 @@ class User {
   get email => _email;
   get phoneNumber => _phoneNumber;
   get credits => _credits;
-  get regDate => DateFormat('dd/MM/yyyy').format(_regDate);
+  get regDate => DateFormat.yMMMMd().format(_regDate);
   get verified => _verified;
 }
