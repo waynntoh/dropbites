@@ -2,7 +2,6 @@ import 'package:drop_bites/components/custom_snackbar.dart';
 import 'package:drop_bites/components/guest_drawer.dart';
 import 'package:drop_bites/utils/constants.dart';
 import 'package:drop_bites/views/login_view.dart';
-import 'package:drop_bites/views/orders_view.dart';
 import 'package:flutter/material.dart';
 import 'package:drop_bites/components/user_drawer.dart';
 import 'package:drop_bites/components/overhead_selector.dart';

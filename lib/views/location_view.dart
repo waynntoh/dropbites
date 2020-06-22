@@ -128,28 +128,6 @@ class _LocationViewState extends State<LocationView> {
                         scrollGesturesEnabled: true,
                         zoomGesturesEnabled: true,
                       ),
-                      // TODO: Search bar / abanddon?
-                      // Positioned(
-                      //   width: width,
-                      //   child: Container(
-                      //     margin: EdgeInsets.all(16),
-                      //     decoration: BoxDecoration(
-                      //       boxShadow: [
-                      //         kButtonShadow,
-                      //       ],
-                      //     ),
-                      //     child: Center(
-                      //       child: TextField(
-                      //         decoration: InputDecoration(
-                      //             filled: true,
-                      //             fillColor: Colors.white,
-                      //             hintText: 'Search',
-                      //             border: InputBorder.none),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
-                      // Current location button
                       Positioned(
                         right: 16,
                         bottom: 16,

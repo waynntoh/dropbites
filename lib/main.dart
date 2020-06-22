@@ -1,6 +1,4 @@
 import 'package:drop_bites/views/location_view.dart';
-import 'package:drop_bites/views/orders_view.dart';
-import 'package:drop_bites/views/reload_view.dart';
 import 'package:drop_bites/views/splash_view.dart';
 import 'package:flutter/material.dart';
 import 'package:drop_bites/utils/constants.dart';
@@ -26,7 +24,6 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute: SplashView.id,
         routes: {
-          ReloadView.id: (context) => ReloadView(),
           LocationView.id: (context) => LocationView(),
           AccountView.id: (context) => AccountView(),
           RegisterView.id: (context) => RegisterView(),

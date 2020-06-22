@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:drop_bites/components/custom_snackbar.dart';
 import 'package:drop_bites/components/order_tile.dart';
 import 'package:drop_bites/components/user_drawer.dart';
 import 'package:drop_bites/utils/order.dart';

@@ -422,7 +422,13 @@ class _CartViewState extends State<CartView> {
                                   onPressed: () {
                                     CartView.scaffoldKey.currentState
                                         .hideCurrentSnackBar();
-                                    Navigator.pushNamed(context, ReloadView.id);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ReloadView(
+                                            email: loggedInUser.email),
+                                      ),
+                                    );
                                   },
                                 )
                               ],
