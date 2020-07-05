@@ -43,7 +43,7 @@ class _ReloadViewState extends State<ReloadView> {
     http.post(getCartURL, body: {
       'email': widget.email,
     }).then((res) {
-      if (res.body != 'Cart Empty') {
+      if (res.body != 'No Orders') {
         setState(() {
           var extractdata = json.decode(res.body);
           List r = extractdata["reloads"];
@@ -272,12 +272,12 @@ class _ReloadViewState extends State<ReloadView> {
                   height: 120,
                   width: width - 180,
                   top: 140,
-                  left: 90,
+                  left: 85,
                   child: Container(
                     child: Column(
                       children: [
                         Text(
-                          reloads.length != 0
+                          reloads.length > 2
                               ? '+ \$${reloads[2].amount.toStringAsFixed(0)}'
                               : '',
                           style: kNumeralTextStyle.copyWith(
@@ -287,7 +287,7 @@ class _ReloadViewState extends State<ReloadView> {
                         ),
                         SizedBox(height: 16),
                         Text(
-                          reloads.length != 0
+                          reloads.length > 1
                               ? '+ \$${reloads[1].amount.toStringAsFixed(0)}'
                               : '',
                           style: kNumeralTextStyle.copyWith(

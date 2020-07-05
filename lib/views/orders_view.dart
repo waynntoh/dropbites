@@ -80,7 +80,7 @@ class _OrdersViewState extends State<OrdersView> {
                 left: 16,
                 child: Row(
                   children: [
-                    GestureDetector(
+                    InkWell(
                       onTap: () {
                         OrdersView.scaffoldKey.currentState.openDrawer();
                       },
@@ -166,7 +166,7 @@ class _OrdersViewState extends State<OrdersView> {
                     },
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),
