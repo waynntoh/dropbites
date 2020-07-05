@@ -84,6 +84,9 @@ class _LoginViewState extends State<LoginView>
         echoes[6] == '0'
             ? loggedInUser.setVerified(false)
             : loggedInUser.setVerified(true);
+        echoes[7] == '0'
+            ? loggedInUser.setAdmin(false)
+            : loggedInUser.setAdmin(true);
       } else {
         CustomSnackbar.showSnackbar(
             text: 'Login Failed',

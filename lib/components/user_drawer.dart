@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:drop_bites/components/custom_snackbar.dart';
+import 'package:drop_bites/views/admin_menu.dart';
 import 'package:drop_bites/views/main_menu_view.dart';
 import 'package:drop_bites/views/orders_view.dart';
 import 'package:drop_bites/views/reload_view.dart';
@@ -215,7 +216,7 @@ class _UserDrawerState extends State<UserDrawer> {
                 ),
                 ListTile(
                   leading: FaIcon(
-                    FontAwesomeIcons.userCircle,
+                    FontAwesomeIcons.userAlt,
                     color: Colors.blue[300],
                   ),
                   title: Text('My Account', style: kDefaultTextStyle),
@@ -237,6 +238,31 @@ class _UserDrawerState extends State<UserDrawer> {
                     }
                   },
                 ),
+                loggedInUser.isAdmin
+                    ? ListTile(
+                        leading: FaIcon(
+                          FontAwesomeIcons.userShield,
+                          color: Colors.indigo[300],
+                        ),
+                        title:
+                            Text('Admin Privileges', style: kDefaultTextStyle),
+                        onTap: () {
+                          if (AdminMenu.scaffoldKey.currentContext ==
+                              Scaffold.of(context).context) {
+                            Navigator.pop(context);
+                          } else {
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AdminMenu(),
+                              ),
+                            );
+                          }
+                        },
+                      )
+                    : Container(),
                 Divider(
                   thickness: 1,
                 ),

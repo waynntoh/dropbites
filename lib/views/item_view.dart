@@ -28,6 +28,30 @@ class _ItemViewState extends State<ItemView> {
   String url = 'http://hackanana.com/dropbites/php/add_to_cart.php';
   bool loading = false;
   double loadingOpacity = 1;
+  String type;
+
+  @override
+  void initState() {
+    setState(() {
+      switch (widget.item.type) {
+        case 'app':
+          type = 'Appetizer';
+          break;
+        case 'ent':
+          type = 'Entrée';
+          break;
+        case 'bev':
+          type = 'Beverage';
+          break;
+        case 'des':
+          type = 'Dessert';
+          break;
+        default:
+          type = '${widget.item.type}';
+      }
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,15 +122,17 @@ class _ItemViewState extends State<ItemView> {
                               Row(
                                 children: <Widget>[
                                   Icon(
-                                    Icons.shopping_basket,
+                                    Icons.fastfood,
                                     size: 28,
                                     color: kGrey1,
                                   ),
                                   SizedBox(width: 16),
-                                  Text(
-                                    'Freshly Made',
-                                    style: kDefaultTextStyle.copyWith(
-                                      color: kGrey4,
+                                  Center(
+                                    child: Text(
+                                      '$type',
+                                      style: kDefaultTextStyle.copyWith(
+                                        color: kGrey4,
+                                      ),
                                     ),
                                   ),
                                 ],

@@ -7,6 +7,7 @@ class User {
   double _credits;
   DateTime _regDate;
   bool _verified;
+  bool _isAdmin;
 
   void setName(String name) {
     _name = name;
@@ -32,10 +33,15 @@ class User {
     _verified = verified;
   }
 
+  void setAdmin(bool isAdmin) {
+    _isAdmin = isAdmin;
+  }
+
   get name => _name;
   get email => _email;
   get phoneNumber => _phoneNumber;
   get credits => _credits;
   get regDate => DateFormat.yMMMMd().format(_regDate);
   get verified => _verified;
+  get isAdmin => _isAdmin;
 }
